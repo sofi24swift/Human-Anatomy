@@ -1,0 +1,6 @@
+{
+  "name": "ანატომია ბავშვებისთვის",
+  "description": "ინტერაქტიული საგანმანათლებლო აპლიკაცია ადამიანის ანატომიის შესახებ ქართველი ბავშვებისთვის",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

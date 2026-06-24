@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="ka">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ანატომია ბავშვებისთვის - ანატომიის სამყარო</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts for Playful Typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Sans+Condensed:wght@400;700;900&family=Inter:wght@400;750;900&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <!-- Firebase CDN SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+</head>
+<body class="bg-sky-50/50 text-slate-800 min-h-screen pb-12 font-sans overflow-x-hidden">
+
+  <!-- Header Banner -->
+  <header class="bg-gradient-to-b from-amber-200 via-sky-100 to-sky-50 pb-8 pt-4 px-4 shadow-sm border-b border-sky-100">
+    <div class="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
+      
+      <!-- Brand & title -->
+      <div class="flex items-center gap-3 text-center md:text-left">
+        <div class="bg-amber-400 p-2.5 rounded-3xl border-4 border-amber-500 shadow-md transform rotate-[-3deg] hover:rotate-3 transition-transform text-3xl">
+          🦴
+        </div>
+        <div>
+          <h1 class="text-2xl font-black text-slate-800 tracking-tight">ანატომია ბავშვებისთვის</h1>
+          <p class="text-xs text-sky-700 font-bold">შენი სხეული - საოცარი და საიდუმლო სამყარო ქართულად! 🇬🇪</p>
+        </div>
+      </div>
+
+      <!-- Gamification Counters -->
+      <div class="flex gap-3">
+        <!-- Stars -->
+        <div class="bg-amber-400 border-4 border-amber-500 py-2 px-4 rounded-2xl flex items-center gap-2.5 shadow-md">
+          <div class="bg-white p-1 rounded-full text-lg">⭐</div>
+          <div class="text-left leading-none">
+            <span class="text-[9px] font-black text-amber-900 block uppercase">ვარსკვლავები</span>
+            <span id="stars-display" class="text-lg font-black text-slate-900">0</span>
+          </div>
+        </div>
+
+        <!-- Points -->
+        <div class="bg-emerald-400 border-4 border-emerald-500 py-2 px-4 rounded-2xl flex items-center gap-2.5 shadow-md">
+          <div class="bg-white p-1 rounded-full text-lg">🏆</div>
+          <div class="text-left leading-none">
+            <span id="points-title" class="text-[9px] font-black text-emerald-900 block uppercase">ქულა</span>
+            <span id="points-display" class="text-lg font-black text-slate-900">0</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </header>
+
+  <main class="max-w-6xl mx-auto px-4 mt-6 flex flex-col gap-6">
+
+    <!-- Auth form ribbon -->
+    <section id="auth-ribbon" class="bg-white rounded-2xl border border-slate-200 p-4 shadow-md w-full">
+      <div class="flex flex-col md:flex-row justify-between items-center gap-3">
+        <div class="flex items-center gap-2 text-left">
+          <div id="auth-alert-icon" class="bg-amber-100 p-2 rounded-full text-amber-600 animate-pulse text-lg">⚠️</div>
+          <div>
+            <span id="auth-status-title" class="text-xs font-bold text-amber-800 block">გთხოვთ, გაიარო ავტორიზაცია პროგრესის შესანახად</span>
+            <span id="auth-status-desc" class="text-[10px] text-slate-500 font-medium">შეინახე და დაასინქრონირე ქულები ღრუბელში ნებისმიერ დროს!</span>
+          </div>
+        </div>
+        <div class="flex gap-2">
+          <button id="auth-toggle-btn" class="bg-indigo-600 text-white hover:bg-indigo-700 shadow-md py-2 px-4 rounded-xl text-xs font-bold transition-all">
+            შესვლა / რეგისტრაცია
+          </button>
+          <button id="logout-btn" class="hidden bg-slate-100 text-slate-700 hover:bg-slate-200 py-2 px-4 rounded-xl text-xs font-bold transition-all">
+            გამოსვლა (Logout)
+          </button>
+        </div>
+      </div>
+
+      <!-- Live integrated Auth Panel drawer -->
+      <div id="auth-panel" class="hidden border-t border-slate-150 pt-4 mt-4 max-w-md mx-auto">
+        <h3 id="auth-action-title" class="text-sm font-extrabold text-slate-800 mb-3 text-center">ავტორიზაცია (Login)</h3>
+        <p id="auth-error" class="hidden bg-rose-50 text-rose-800 text-xs p-2 rounded-xl mb-3 border border-rose-100"></p>
+        
+        <form id="auth-form" class="flex flex-col gap-3">
+          <div>
+            <label class="text-[10px] font-bold text-slate-500 block mb-1">ელ-ფოსტა</label>
+            <input type="email" id="auth-email" placeholder="explorer@gmail.com" class="w-full bg-slate-50 border rounded-xl py-2 px-3 text-xs outline-none focus:ring-2 focus:ring-indigo-300" required>
+          </div>
+          <div>
+            <label class="text-[10px] font-bold text-slate-500 block mb-1">პაროლი</label>
+            <input type="password" id="auth-password" placeholder="••••••" class="w-full bg-slate-50 border rounded-xl py-2 px-3 text-xs outline-none focus:ring-2 focus:ring-indigo-300" required>
+          </div>
+          <button type="submit" id="auth-submit-btn" class="w-full bg-indigo-600 text-white font-extrabold rounded-xl py-2.5 text-xs hover:bg-indigo-700">შესვლა</button>
+          <div class="text-center mt-1">
+            <button type="button" id="auth-mode-switch" class="text-[10px] text-indigo-650 font-bold hover:underline">არ გაქვს ანგარიში? შეიქმენი აქ</button>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <!-- Navigation Hub Tabs border -->
+    <nav class="bg-white p-2.5 rounded-2xl md:rounded-3xl border border-slate-200 shadow-md flex overflow-x-auto gap-2">
+      <button onclick="switchTab('planes')" id="tab-planes" class="tab-button active flex-1 shrink-0 p-3 rounded-xl font-bold text-xs md:text-sm flex items-center justify-center gap-1.5 transition-all">
+        🧭 სიბრტყეები
+      </button>
+      <button onclick="switchTab('joints')" id="tab-joints" class="tab-button flex-1 shrink-0 p-3 rounded-xl font-bold text-xs md:text-sm flex items-center justify-center gap-1.5 transition-all">
+        🏋️‍♂️ სახსრების ვარჯიში
+      </button>
+      <button onclick="switchTab('skin')" id="tab-skin" class="tab-button flex-1 shrink-0 p-3 rounded-xl font-bold text-xs md:text-sm flex items-center justify-center gap-1.5 transition-all">
+        🛡️ კანის ფარი
+      </button>
+      <button onclick="switchTab('quiz')" id="tab-quiz" class="tab-button flex-1 shrink-0 p-3 rounded-xl font-bold text-xs md:text-sm flex items-center justify-center gap-1.5 transition-all">
+        ❓ ვიქტორინა
+      </button>
+      <button onclick="switchTab('library')" id="tab-library" class="tab-button flex-1 shrink-0 p-3 rounded-xl font-bold text-xs md:text-sm flex items-center justify-center gap-1.5 transition-all">
+        📚 ლიტერატურა
+      </button>
+    </nav>
+
+    <!-- Interactive contents zone container -->
+    <div class="relative bg-transparent min-h-[400px]">
+
+      <!-- TAB 1: BODY PLANES -->
+      <section id="content-planes" class="tab-content grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+        <div class="lg:col-span-7 bg-white p-6 rounded-3xl border-4 border-amber-200 shadow-xl overflow-hidden relative">
+          <h3 class="text-xl font-bold text-amber-700 mb-2 flex items-center gap-2">🧭 სხეულის ინტერაქტიული სიბრტყეები</h3>
+          <p class="text-xs text-amber-600 mb-4 bg-amber-50 p-2.5 rounded-xl font-semibold">💡 აირჩიე სიბრტყე მარჯვნივ და დააკვირდი ჩონჩხის დაყოფას, აგრეთვე დააკლიკე წითელ წერტილებს!</p>
+          
+          <div class="relative w-full h-[320px] flex justify-center items-center bg-sky-50 rounded-2xl p-4 border border-sky-100">
+            <!-- Simulated Kid anatomy visual schema -->
+            <div id="planes-figure-container" class="relative w-[180px] h-full">
+              <svg viewBox="0 0 200 300" class="w-full h-full">
+                <!-- Human skeleton trace -->
+                <g fill="none" stroke="#f43f5e" stroke-width="2">
+                  <circle cx="100" cy="55" r="22" fill="#ffe4e6" stroke="#fb7185" />
+                  <rect x="95" y="77" width="10" height="15" fill="#ffe4e6" stroke="#fb7185" />
+                  <path d="M 80,92 H 120 V 180 H 80 Z" fill="#ffe4e6" stroke="#fb7185" />
+                  <line x1="78" y1="95" x2="60" y2="140" stroke="#fb7185" />
+                  <line x1="122" y1="95" x2="140" y2="140" stroke="#fb7185" />
+                  <rect x="83" y="180" width="12" height="85" rx="4" fill="#ffe4e6" stroke="#fb7185" />
+                  <rect x="105" y="180" width="12" height="85" rx="4" fill="#ffe4e6" stroke="#fb7185" />
+                </g>
+                <!-- Happy emotions faces -->
+                <circle cx="94" cy="50" r="2" fill="#be123c" />
+                <circle cx="106" cy="50" r="2" fill="#be123c" />
+                <path d="M 95,61 Q 100,68 105,61" stroke="#be123c" stroke-width="2" fill="none" />
+
+                <!-- Vertical splitting indicator line -->
+                <line id="svg-split-line" x1="100" y1="10" x2="100" y2="290" stroke="#f97316" stroke-dasharray="4,4" stroke-width="3" />
+                <!-- Horizontal splitting ellipse -->
+                <ellipse id="svg-horizontal-ellipse" cx="100" cy="145" rx="90" ry="12" fill="rgba(14, 165, 233, 0.25)" stroke="#0ea5e9" stroke-width="2.5" class="hidden" />
+              </svg>
+
+              <!-- Tactile direction highlights pins -->
+              <button onclick="showDirectionDesc('სუპერიორული','Superior','თავისკენ უფრო მაღლა.')" class="absolute top-[10px] left-[85px] bg-red-500 hover:bg-red-600 text-white rounded-full w-7 h-7 text-[9px] font-black border border-white leading-none shadow-md">ზედა</button>
+              <button onclick="showDirectionDesc('ინფერიორული','Inferior','ფეხებისკენ უფრო დაბლა.')" class="absolute bottom-[10px] left-[85px] bg-red-500 hover:bg-red-600 text-white rounded-full w-7 h-7 text-[9px] font-black border border-white leading-none shadow-md">ქვედა</button>
+              <button onclick="showDirectionDesc('ლატერალური','Lateral','შუა ხაზიდან გვერდზე.')" class="absolute top-[120px] left-[20px] bg-purple-500 hover:bg-purple-600 text-white rounded-full w-7 h-7 text-[9px] font-black border border-white leading-none shadow-md">გვერდი</button>
+              <button onclick="showDirectionDesc('მედიალური','Medial','შუა ხაზთან ახლოს.')" class="absolute top-[110px] left-[85px] bg-green-500 hover:bg-green-600 text-white rounded-full w-7 h-7 text-[9px] font-black border border-white leading-none shadow-md">შუა</button>
+            </div>
+
+            <!-- Interactive feedback floating box -->
+            <div id="planes-info-toast" class="hidden absolute bottom-3 left-3 right-3 bg-white p-2.5 rounded-xl border border-sky-100 shadow-md">
+              <span id="toast-title" class="font-extrabold text-xs text-sky-850">კოორდინატები</span>
+              <p id="toast-desc" class="text-[11px] text-slate-600 font-semibold"></p>
+            </div>
+          </div>
+        </div>
+
+        <div class="lg:col-span-5 flex flex-col gap-4">
+          <!-- Selection controls -->
+          <div class="bg-amber-50 p-4 rounded-3xl border border-amber-200">
+            <h4 class="text-xs font-black text-amber-800 mb-3 text-center">შეარჩიე ანატომიური სიბრტყე:</h4>
+            <div class="flex flex-col gap-2">
+              <button onclick="selectPlane('sagittal')" id="btn-plane-sagittal" class="plane-sel-btn active text-left p-3 rounded-xl border border-slate-200 text-xs font-bold bg-white">
+                საგიტალური სიბრტყე (Median Sagittal)
+              </button>
+              <button onclick="selectPlane('coronal')" id="btn-plane-coronal" class="plane-sel-btn text-left p-3 rounded-xl border border-slate-200 text-xs font-bold bg-white">
+                კორონალური სიბრტყე (Coronal / Frontal)
+              </button>
+              <button onclick="selectPlane('transverse')" id="btn-plane-transverse" class="plane-sel-btn text-left p-3 rounded-xl border border-slate-200 text-xs font-bold bg-white">
+                ტრანსვერსიული სიბრტყე (Transverse)
+              </button>
+            </div>
+          </div>
+
+          <!-- Plane desc board card -->
+          <div className="bg-sky-50 rounded-3xl p-5 border-2 border-sky-150 shadow-md">
+            <div className="text-[10px] font-bold text-sky-800 bg-sky-100 px-2 py-0.5 rounded-full w-fit mb-2 uppercase">🧬 განმარტება</div>
+            <h4 id="plane-display-title" class="text-base font-extrabold text-sky-900 mb-1">მედიანური საგიტალური</h4>
+            <p id="plane-display-desc" class="text-xs text-slate-600 mb-3 italic">წარმოიდგინე უხილავი სარკე, რომელიც შენს სხეულს ზუსტად შუაზე ყოფს!</p>
+            <div class="bg-white p-3 rounded-xl border">
+              <span class="text-[10px] text-sky-850 font-bold block mb-1">🔍 რას აკეთებს?</span>
+              <p id="plane-display-impact" class="text-xs text-slate-700 font-bold">ყოფს სხეულს მარცხენა და მარჯვენა ნაწილებად.</p>
+            </div>
+          </div>
+
+          <!-- Micro-quiz box -->
+          <div class="bg-green-50 rounded-3xl border border-green-200 p-4">
+            <h4 class="text-xs font-black text-green-800 mb-1 flex items-center gap-1">⭐ სწრაფი გამოცდა ვარსკვლავისთვის!</h4>
+            <p class="text-xs text-slate-600 mb-3">რომელი სიბრტყე ყოფს სხეულს ზედა და ქვედა ნაწილებად?</p>
+            <div class="flex flex-col gap-1.5" id="plane-micro-form">
+              <button onclick="checkMicroQuiz(false)" class="bg-white p-2 rounded-lg text-[11px] font-bold border hover:border-green-300 text-left">საგიტალური</button>
+              <button onclick="checkMicroQuiz(true)" class="bg-white p-2 rounded-lg text-[11px] font-bold border hover:border-green-300 text-left">ტრანსვერსიული</button>
+            </div>
+            <p id="plane-micro-feedback" class="hidden text-xs font-bold text-green-800 mt-2 bg-white/70 p-2 rounded-lg"></p>
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB 2: JOINT GYM -->
+      <section id="content-joints" class="tab-content hidden grid grid-cols-1 lg:grid-cols-12 gap-6">
+        <div class="lg:col-span-6 bg-white p-5 rounded-3xl border-4 border-emerald-200 shadow-xl flex flex-col items-center">
+          <h3 class="text-xl font-bold text-emerald-700 mb-2 self-start flex items-center gap-1.5">🏋️‍♂️ სახსრების სავარჯიშო დარბაზი</h3>
+          <p class="text-xs text-emerald-600 mb-5 bg-emerald-50 p-2.5 rounded-xl self-start font-semibold">🦴 აირჩიე სახსარი ჩონჩხზე, რომ გაიგო მისი სახელი კუნთებში!</p>
+
+          <div class="relative w-full max-w-[260px] h-[320px] bg-slate-800 rounded-3xl p-4 flex justify-center border-4 border-slate-700">
+            <!-- Interacting Skeleton overlay -->
+            <svg viewBox="0 0 100 130" class="w-[124px] h-full overflow-visible z-10">
+              <g stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" fill="none">
+                <circle cx="50" cy="15" r="7" fill="#f8fafc" />
+                <line x1="50" y1="22" x2="50" y2="75" stroke-width="3" />
+                <line x1="38" y1="35" x2="62" y2="35" />
+                <line x1="36" y1="45" x2="64" y2="45" />
+                {/* Joints circle indicators */}
+                <circle cx="62" cy="30" r="4.5" fill="#34d399" stroke="#ffffff" stroke-width="1.5" onclick="selectJoint('shoulder')" class="cursor-pointer" />
+                <line x1="62" y1="30" x2="74" y2="47" />
+                <circle cx="74" cy="47" r="4.5" fill="#34d399" stroke="#ffffff" stroke-width="1.5" onclick="selectJoint('elbow')" class="cursor-pointer" />
+                <line x1="74" y1="47" x2="84" y2="65" />
+                <circle cx="84" cy="65" r="4.5" fill="#34d399" stroke="#ffffff" stroke-width="1.5" onclick="selectJoint('wrist')" class="cursor-pointer" />
+
+                {/* Lower body */}
+                <line x1="50" y1="75" x2="56" y2="80" />
+                <circle cx="56" cy="80" r="4.5" fill="#34d399" stroke="#ffffff" stroke-width="1.5" onclick="selectJoint('hip')" class="cursor-pointer" />
+                <line x1="56" y1="80" x2="60" y2="103" />
+                <circle cx="60" cy="103" r="4.5" fill="#34d399" stroke="#ffffff" stroke-width="1.5" onclick="selectJoint('knee')" class="cursor-pointer" />
+                <line x1="60" y1="103" x2="58" y2="124" />
+                <circle cx="58" cy="124" r="4.5" fill="#34d399" stroke="#ffffff" stroke-width="1.5" onclick="selectJoint('ankle')" class="cursor-pointer" />
+              </g>
+            </svg>
+            <div id="joint-gym-animation-overlay" class="hidden absolute top-4 left-4 right-4 bg-emerald-500 py-1.5 px-3 rounded-full text-center text-white text-[10px] font-black z-20">მოძრაობა აქტიურია!</div>
+          </div>
+        </div>
+
+        <div class="lg:col-span-6 flex flex-col gap-4">
+          <!-- Information box -->
+          <div class="bg-white rounded-3xl border border-slate-200 p-5 shadow-lg">
+            <span class="text-[10px] font-black text-amber-800 bg-amber-100 px-3 py-1 rounded-full w-fit block mb-3 uppercase">💡 სხეულის საიდუმლოებები</span>
+            <h3 id="joint-display-name" class="text-lg font-black text-slate-800 mb-1">ಮხრის სახსარი</h3>
+            <span id="joint-display-type" class="text-[10px] font-black text-emerald-600 block uppercase mb-3">ტიპი: ბურთულა-ბუდე</span>
+            <p id="joint-display-desc" class="text-xs text-slate-600 mb-4 leading-relaxed">აკავშირებს მხრის ძვალსა და ბეჭს.</p>
+            
+            <div class="bg-sky-50 rounded-2xl p-4 border border-sky-150">
+              <span class="text-[10px] font-extrabold text-sky-800 block mb-1">⭐ საინტერესო ფაქტი ბავშვისთვის:</span>
+              <p id="joint-display-fact" class="text-xs text-sky-950 leading-relaxed font-semibold italic">"ეს არის ჩვენი ყოვლისშემძლე სახსარი! ის უზრუნველყოფს მოძრაობას ყველა მიმართულებით."</p>
+            </div>
+          </div>
+
+          <!-- Workout panel simulator card -->
+          <div class="bg-emerald-500 rounded-3xl border border-emerald-600 p-5 text-white shadow-xl">
+            <div class="flex justify-between items-center mb-3">
+              <span class="text-xs font-black flex items-center gap-1 uppercase">🏋️‍♂️ გავავარჯიშოთ სახსრები!</span>
+            </div>
+            <p class="text-xs text-emerald-100 mb-4 font-semibold">დააწკაპუნე სახსრის მოძრაობის რომელიმე ღილაკს, რომ ივარჯიშო და აავსო პროგრესი!</p>
+            
+            <div class="mb-4 bg-emerald-700 rounded-full h-5 p-1 relative flex items-center shadow-inner">
+              <div id="joint-workout-progress" class="bg-amber-400 h-full rounded-full transition-all duration-300" style="width: 10%; min-width: 10px;"></div>
+              <span id="joint-progress-text" class="absolute inset-0 flex items-center justify-center text-[9px] font-extrabold text-center uppercase">ვარჯიშის ძალა: 10%</span>
+            </div>
+
+            <div class="grid grid-cols-2 gap-2" id="joint-movements-container">
+              <!-- Dynamically populated buttons -->
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB 3: SKIN SHIELD -->
+      <section id="content-skin" class="tab-content hidden grid grid-cols-1 lg:grid-cols-12 gap-6">
+        <div class="lg:col-span-3 flex flex-row lg:flex-col gap-2 overflow-x-auto lg:overflow-x-visible pb-2 lg:pb-0">
+          <button onclick="selectSkinSubTab('cut')" id="subtab-cut" class="subtab-button active flex-1 p-3 rounded-xl text-xs font-bold border text-center transition-all">🩹 ნაკაწრი</button>
+          <button onclick="selectSkinSubTab('burn')" id="subtab-burn" class="subtab-button flex-1 p-3 rounded-xl text-xs font-bold border text-center transition-all">🔥 დამწვრობა</button>
+          <button onclick="selectSkinSubTab('sun')" id="subtab-sun" class="subtab-button flex-1 p-3 rounded-xl text-xs font-bold border text-center transition-all">☀️ მზის ფარი</button>
+        </div>
+
+        <div class="lg:col-span-9 bg-white p-6 rounded-3xl border border-slate-200 shadow-xl min-h-[380px] flex flex-col justify-between">
+          <!-- Subtab 1: Cut Healing -->
+          <div id="skin-cut-panel">
+            <h3 class="text-lg font-black text-rose-700 mb-2">🩹 ნაკაწრის შეხორცების ეტაპები</h3>
+            <p class="text-xs text-rose-600 mb-4 bg-rose-50 p-2 rounded-xl">როდესაც თითს გაიკაწრავ, ეპიდერმისი და დერმა მუშაობას მაშინვე იწყებენ. მიყევი ეტაპებს:</p>
+
+            <div class="bg-orange-50 p-6 rounded-2xl border-2 border-orange-100 flex items-center justify-center h-[140px] mb-4">
+              <div id="cut-graphics-skin" class="w-full max-w-[280px] h-[30px] bg-amber-200 rounded-full relative flex items-center justify-center border font-bold">
+                <span id="cut-graphics-state" class="text-xs text-rose-800">სისხლდენა! 🩸</span>
+              </div>
+            </div>
+
+            <div class="bg-rose-50/50 p-4 rounded-xl border" id="cut-instructions-container">
+              <p id="cut-instruction-p" class="text-xs text-slate-700 leading-relaxed mb-3">ჯერ ჭრილობა უნდა ჩამოვბანოთ სუფთა წყლით და დავადოთ სტერილური ლეიკოპლასტირი.</p>
+              <button onclick="advanceCutStep()" id="cut-step-action" class="bg-rose-600 hover:bg-rose-700 text-white font-bold text-xs py-2 px-4 rounded-xl shadow-md">დაადე სახვევი 🩹</button>
+            </div>
+          </div>
+
+          <!-- Subtab 2: Burns Classification -->
+          <div id="skin-burn-panel" class="hidden">
+            <h3 class="text-lg font-black text-orange-700 mb-2">🔥 დამწვრობის ხარისხები და დახმარება</h3>
+            <p class="text-xs text-orange-600 mb-4 bg-orange-50 p-2 rounded-xl">გაიგე როგორ ფასდება დამწვრობა და მიიღე პირველადი ცოდნა ქართულ ენაზე:</p>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-3 mb-4">
+              <div class="bg-orange-50 p-3 rounded-xl border border-orange-100 text-xs">
+                <span class="font-extrabold text-[10px] text-orange-700 uppercase">1-ლი ხარისხი</span>
+                <p class="font-bold text-slate-900 mt-1 mb-1">გაწითლებული კანი</p>
+                <p class="text-slate-500 text-[10px] leading-normal mb-2">მაგ: მზისგან დამწვრობა. გააგრილე ცივი წყლით 10 წუთით!</p>
+              </div>
+              <div class="bg-red-50 p-3 rounded-xl border border-red-100 text-xs animate-pulse">
+                <span class="font-extrabold text-[10px] text-red-700 uppercase">მე-2 ხარისხი</span>
+                <p class="font-bold text-slate-900 mt-1 mb-1">ბუშტუკები</p>
+                <p class="text-slate-500 text-[10px] leading-normal mb-2">არასდროს გახეთქო ბუშტუკები, რომ მიკრობებმა არ შეაღწიონ დერმაში!</p>
+              </div>
+              <div class="bg-slate-50 p-3 rounded-xl border border-slate-200 text-xs">
+                <span class="font-extrabold text-[10px] text-slate-705 uppercase">მე-3 ხარისხი</span>
+                <p class="font-bold text-slate-900 mt-1 mb-1">ღრმა დამწვრობა</p>
+                <p class="text-slate-500 text-[10px] leading-normal mb-2">დაზიანებულია კუნთი სრულად. დაუყოვნებლივ ექიმი 112!</p>
+              </div>
+            </div>
+
+            <div class="bg-sky-50 p-3.5 rounded-xl border border-sky-200 flex justify-between items-center gap-2" id="burn-simulator-box">
+              <span class="text-xs text-slate-700 leading-normal"><strong>დახმარება:</strong> კანი შემთხვევით ცხელ ჭიქას შეეხო. გვაჩვენე სწორი მოქმედება!</span>
+              <button onclick="coolBurnAction(this)" class="bg-sky-600 hover:bg-sky-700 text-white font-bold text-xs py-2 px-3 rounded-xl h-fit">დაასხი ცივი წყალი 💧</button>
+            </div>
+          </div>
+
+          <!-- Subtab 3: Sun Protection -->
+          <div id="skin-sun-panel" class="hidden">
+            <h3 class="text-lg font-black text-sky-700 mb-2">☀️ მზისგან დამცავი "მზის ფარი"</h3>
+            <p class="text-xs text-sky-600 mb-4 bg-sky-50 p-2 rounded-xl">ულტრაიისფერი (UV) სხივებისგან დასაცავად საჭიროა აქსესუარები. დაეხმარე ნიკას მზისგან დაცვაში:</p>
+
+            <div class="bg-sky-50/50 p-4 rounded-xl border border-sky-100 flex flex-col items-center justify-center min-h-[140px] mb-4 relative">
+              <div id="sun-graphics-hat" class="hidden text-3xl mb-1 select-none">👒</div>
+              <div class="w-14 h-14 bg-orange-100 border-2 border-orange-300 rounded-full flex flex-col items-center justify-center font-bold text-xs text-red-500" id="sun-graphics-face">
+                🥵 ცხელა!
+              </div>
+              <div class="flex gap-4 text-xs font-semibold mt-3 text-slate-600">
+                <span id="sun-status-hat">ქუდი: ❌ აკლია</span>
+                <span id="sun-status-spf">SPF მზის კრემი: ❌ აკლია</span>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-2 gap-2" id="sun-shield-selector">
+              <button onclick="applySunProtection('hat', this)" class="bg-amber-400 hover:bg-amber-500 text-slate-900 border p-2.5 rounded-xl font-bold text-xs shadow-md">👒 დაახურე მზის ქუდი</button>
+              <button onclick="applySunProtection('spf', this)" class="bg-blue-500 hover:bg-blue-600 text-white border p-2.5 rounded-xl font-bold text-xs shadow-md">🧴 წაუსვი დამცავი SPF კრემი</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB 4: QUIZ ARENA -->
+      <section id="content-quiz" class="tab-content hidden max-w-2xl mx-auto">
+        <!-- Interactive scoreboard -->
+        <div class="bg-white border-4 border-sky-200 p-6 rounded-3xl shadow-xl" id="quiz-question-box">
+          <div class="flex justify-between items-center mb-5">
+            <span class="bg-sky-100 text-sky-800 font-mono font-bold text-xs uppercase px-2.5 py-0.5 rounded-full" id="quiz-badge">კითხვა 1 / 8</span>
+            <span id="quiz-score-indicator" class="text-xs font-bold text-slate-500">სწორი: 0 / 8</span>
+          </div>
+
+          <div class="bg-sky-50 rounded-2xl p-5 mb-5 border-2 border-sky-150 relative">
+            <p id="quiz-question-text" class="text-base font-extrabold text-slate-800 leading-normal text-left">რომელი ორგანო ტუმბავს სისხლს მთელ სხეულში?</p>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mb-6" id="quiz-options-container">
+            <!-- Populated via Javascript -->
+          </div>
+
+          <div id="quiz-explanation-box" class="hidden p-4 rounded-xl border-2 mb-4">
+            <span class="text-xs font-extrabold uppercase block mb-1" id="quiz-exp-title">სწორია! ყოჩაღ!</span>
+            <p id="quiz-explanation-text" class="text-xs font-semibold leading-relaxed text-slate-700"></p>
+          </div>
+
+          <button onclick="nextQuizQuestion()" id="quiz-next-btn" class="hidden bg-indigo-600 hover:bg-indigo-700 text-white font-extrabold text-xs py-2.5 px-5 rounded-xl shadow-md ml-auto">შემდეგი კითხვა ➔</button>
+        </div>
+
+        <!-- Finished screen -->
+        <div id="quiz-finished-box" class="hidden bg-white border-4 border-amber-300 p-6 rounded-3xl text-center shadow-xl">
+          <span class="text-4xl">🏆</span>
+          <h2 class="text-xl font-black text-amber-800 mb-2 mt-1">ვიქტორინა დასრულდა!</h2>
+          <p class="text-xs text-slate-500 mb-4">შესანიშნავი შედეგია! შენ დაიმსახურე ანატომიის ვარსკვლავური აკადემიკოსის წოდება!</p>
+          <div class="bg-amber-50 p-4 rounded-2xl max-w-xs mx-auto border-2 border-amber-200 mb-5 text-slate-850 font-bold">
+            სწორი პასუხები: <span id="quiz-final-correct" class="text-xl font-extrabold text-amber-700">0</span> / 8
+          </div>
+          <button onclick="restartQuiz()" class="bg-amber-500 hover:bg-amber-400 text-slate-900 font-extrabold text-xs py-2 px-6 rounded-xl border border-b-2 border-amber-700 shadow-md">თავიდან დაწყება ↻</button>
+        </div>
+      </section>
+
+      <!-- TAB 5: LITERARY SOURCES (წყაროები და ლიტერატურა) -->
+      <section id="content-library" class="tab-content hidden max-w-3xl mx-auto bg-white p-6 rounded-3xl border-4 border-indigo-200 shadow-xl">
+        <div class="flex items-center gap-2 mb-4">
+          <span class="text-3xl">📚</span>
+          <div>
+            <h2 class="text-lg font-black text-indigo-900">წყაროები და სამეცნიერო ლიტერატურა</h2>
+            <p class="text-xs text-indigo-500">საიდან მოდის აპლიკაციაში მოცემული სამედიცინო ფაქტები?</p>
+          </div>
+        </div>
+
+        <div class="bg-indigo-50 p-3.5 rounded-xl text-xs text-indigo-950 mb-5 leading-normal font-semibold">
+          🛡️ <strong>აკადემიური სიზუსტე:</strong> აპლიკაციის თითოეული სამეცნიერო ფაქტი, დაწყებული სახსრების ლათინური სახელწოდებებიდან კანის შეხორცების ეტაპებამდე, ეყრდნობა ნამდვილ სამედიცინო სახელმძღვანელოებსა და კლინიკურ სახელმძღვანელოებს. ჩვენი ძირითადი წყაროებია:
+        </div>
+
+        <div class="flex flex-col gap-4 text-xs font-semibold">
+          <div class="border p-4 rounded-2xl bg-slate-50">
+            <h4 class="font-extrabold text-indigo-900">1. გრეის ანატომია სტუდენტებისთვის (Gray's Anatomy for Students, 4th Edition)</h4>
+            <p class="text-slate-400 text-[10px] leading-none mb-1">ავტორი: რიჩარდ დრეიკი, ა. უეინ ვოგლი, ადამ მიტჩელი</p>
+            <p class="text-slate-600 mt-1 leading-normal">ცნობილი ანატომიის წიგნი. აქ მოცემულია ადამიანის სხეულის უზუსტესი ილუსტრაციები, რომლებიც მეცნიერებსა და ექიმებს სწავლაში ეხმარებათ.</p>
+          </div>
+
+          <div class="border p-4 rounded-2xl bg-slate-50">
+            <h4 class="font-extrabold text-indigo-900">2. მენოფიის უნივერსიტეტის ანატომიის გაიდი და ატლასი (Menoufia University Guidelines)</h4>
+            <p class="text-slate-400 text-[10px] leading-none mb-1">ავტორი: ანატომიისა და ემბრიოლოგიის დეპარტამენტი</p>
+            <p class="text-slate-600 mt-1 leading-normal">სახელმძღვანელო, რომელზე დაყრდნობითაც აიგო ჩვენი აპლიკაციის სახსრებისა და სიბრტყეების განყოფილებები. ის გვასწავლის ანატომიური კოორდინატების განსაზღვრას.</p>
+          </div>
+
+          <div class="border p-4 rounded-2xl bg-slate-50">
+            <h4 class="font-extrabold text-indigo-900">3. გრანტის ანატომიის ატლასი (Grant's Atlas of Anatomy)</h4>
+            <p class="text-slate-600 mt-1 leading-normal">სამედიცინო ატლასი, რომელიც დეტალურად ასახავს კანის ფენებს, კუნთების მიმაგრების ადგილებსა და ნერვულ დაბოლოებებს.</p>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <footer class="mt-16 text-center text-slate-400 text-[11px] leading-relaxed font-semibold">
+    <p>© 2026. ანატომია ბავშვებისთვის - ქართული საგანმანათლებლო პლატფორმა.</p>
+    <p>დამზადებულია სიყვარულით პატარა მეცნიერებისთვის. 🧬✨</p>
+  </footer>
+
+  <!-- Link app.js script file -->
+  <script src="app.js"></script>
+</body>
+</html>

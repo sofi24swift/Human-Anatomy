@@ -1,0 +1,67 @@
+rules_version = '2';
+service cloudfire.firestore {
+  match /databases/{database}/documents {
+
+    // 1. Global Safety Net - Default Deny Everything
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // Harden standard global helper primitives
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isVerifiedUser() {
+      return isSignedIn() && (request.auth.token.email_verified == true);
+    }
+
+    function isValidId(id) {
+      return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    function incoming() {
+      return request.resource.data;
+    }
+
+    function existing() {
+      return resource.data;
+    }
+
+    // 2. Entity validation helper (The "Anti-Update-Gap")
+    function isValidUser(data) {
+      return data.email is string && data.email.size() > 0 && data.email.size() <= 256
+          && data.uid is string && data.uid.size() > 0 && data.uid.size() <= 128
+          && data.points is int && data.points >= 0 && data.points <= 1000000
+          && data.stars is int && data.stars >= 0 && data.stars <= 1000000
+          && data.lastUpdate is int;
+    }
+
+    // Secure custom path for User Profile document
+    match /users/{userId} {
+      // Get single user profile (no collection listing is allowed)
+      allow get: if isVerifiedUser() && isValidId(userId) && userId == request.auth.uid;
+
+      // Create new user profile document
+      allow create: if isVerifiedUser() && isValidId(userId) && userId == request.auth.uid
+                    && isValidUser(incoming())
+                    && incoming().uid == request.auth.uid
+                    && incoming().email == request.auth.token.email
+                    && incoming().keys().hasAll(['email', 'uid', 'points', 'stars', 'lastUpdate'])
+                    && incoming().keys().size() == 5;
+
+      // Update existing stats - strictly control mutated fields with Action-Based pattern
+      allow update: if isVerifiedUser() && isValidId(userId) && userId == request.auth.uid
+                    && isValidUser(incoming())
+                    && incoming().uid == existing().uid
+                    && incoming().email == existing().email
+                    && (
+                      // Action: Sync Stats
+                      incoming().diff(existing()).affectedKeys().hasOnly(['points', 'stars', 'lastUpdate'])
+                    );
+
+      // Deletion is strictly blocked for data durability
+      allow delete: if false;
+    }
+  }
+}

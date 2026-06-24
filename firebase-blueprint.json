@@ -1,0 +1,38 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "User progress data, scoring points, and stars",
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string",
+          "description": "User's email address"
+        },
+        "uid": {
+          "type": "string",
+          "description": "Unique identifier matching auth uid"
+        },
+        "points": {
+          "type": "integer",
+          "description": "Accumulated points from playing games"
+        },
+        "stars": {
+          "type": "integer",
+          "description": "Accumulated stars from quizzes and achievements"
+        },
+        "lastUpdate": {
+          "type": "integer",
+          "description": "Timestamp of the last sync/update"
+        }
+      },
+      "required": ["email", "uid", "points", "stars", "lastUpdate"]
+    }
+  },
+  "firestore": {
+    "users/{userId}": {
+      "schema": "User",
+      "description": "User score and achievement records"
+    }
+  }
+}

@@ -1,0 +1,78 @@
+/* Stylesheet specifically designed for Georgian children.
+   Playful typography, rounded shapes, and bouncing keyframes. */
+
+:root {
+  --font-sans: 'Inter', 'Fira Sans Condensed', system-ui, sans-serif;
+  --font-display: 'Space Grotesk', system-ui, sans-serif;
+}
+
+body {
+  font-family: var(--font-sans);
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--font-display);
+}
+
+/* Playful custom tab button highlight animations */
+.tab-button {
+  background-color: #f8fafc;
+  color: #475569;
+  border: 2px solid #e2e8f0;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.tab-button:hover {
+  background-color: rgba(14, 165, 233, 0.05);
+  border-color: #93c5fd;
+  transform: translateY(-2px);
+}
+
+.tab-button.active {
+  background-color: #38bdf8;
+  color: #0f172a !important;
+  border-color: #0284c7;
+  border-bottom-width: 5px;
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 4px 12px rgba(14, 165, 233, 0.25);
+}
+
+/* Pulsing neon effect for the joints indicators */
+.cursor-pointer circle {
+  transition: all 0.2s ease-in-out;
+}
+
+.cursor-pointer:hover circle {
+  r: 6.5;
+  filter: drop-shadow(0 0 4px #34d399);
+}
+
+/* Animating skin-cuts bleeding pulse effect */
+.animate-pulse-slow {
+  animation: pulse-slow 2.5s infinite;
+}
+
+@keyframes pulse-slow {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.85;
+    transform: scale(0.98);
+  }
+}
+
+/* Custom progress transition classes */
+#joint-workout-progress {
+  transition: width 0.4s ease-out;
+}
+
+/* Responsive custom scrollbars */
+.scrollbar-thin::-webkit-scrollbar {
+  height: 5px;
+}
+.scrollbar-thin::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 9px;
+}
