@@ -50,44 +50,36 @@ const quizQuestions: QuizQuestion[] = [
   },
   {
     id: "q7",
-    question: "რა ჰქვია კანის ყველაზე ზედაპირულ ფენას, რომელსაც არ აქვს სისხლძარღვები და ამიტომ გაკაწვრისას სისხლი არ მოგვდის?",
-    options: ["დერმა (Dermis)", "ეპიდერმისი (Epidermis)", "ფასცია (Fascia)", "ეპილაცია"],
-    correctAnswerIndex: 1,
-    explanation: "ყოჩაღ! ეპიდერმისი არის გარე თხელი ფენა. ის უსისხლოა, მაგრამ მუდმივად ახლდება და გვიცავს მიკრობებისგან."
-  },
-  {
-    id: "q8",
-    question: "რა ეხმარება ჩვენს მყარ ძვლებს მოძრაობაში, სირბილსა და სიმძიმეების აწევაში?",
-    options: ["ფრჩხილები", "კუნთები", "თმები", "ნერვები"],
-    correctAnswerIndex: 1,
-    explanation: "სუპერ! კუნთები ძვლებს გარედან ეკვრის და ტვინიდან წამოსული ბრძანებებით იკუმშება, რომ გვამოძრაოს!"
+    question: "რა ჰქვია კანის ყველაზე გარე, დამცავ ფენას?",
+    options: ["ეპიდერმისი", "დერმა", "ჰიპოდერმა", "ცხიმოვანი ქსოვილი"],
+    correctAnswerIndex: 0,
+    explanation: "სწორია! ეპიდერმისი კანის ყველაზე გარე ფენაა, რომელიც ბარიერივით გვიცავს მიკრობებისა და წყლის დაკარგვისგან."
   }
 ];
 
 interface QuizArenaProps {
-  onEarnPoints: (p: number, s: number) => void;
+  onEarnPoints: (points: number, stars: number) => void;
 }
 
 export default function QuizArena({ onEarnPoints }: QuizArenaProps) {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState<number>(0);
   const [selectedAnswerIndex, setSelectedAnswerIndex] = useState<number | null>(null);
   const [isAnswered, setIsAnswered] = useState<boolean>(false);
-  const [quizFinished, setQuizFinished] = useState<boolean>(false);
   const [correctCount, setCorrectCount] = useState<number>(0);
+  const [quizFinished, setQuizFinished] = useState<boolean>(false);
 
   const activeQuestion = quizQuestions[currentQuestionIndex];
 
-  const handleOptionClick = (optionIdx: number) => {
+  const handleOptionClick = (index: number) => {
     if (isAnswered) return;
-    
-    setSelectedAnswerIndex(optionIdx);
+    setSelectedAnswerIndex(index);
     setIsAnswered(true);
 
-    const isCorrect = optionIdx === activeQuestion.correctAnswerIndex;
+    const isCorrect = index === activeQuestion.correctAnswerIndex;
     if (isCorrect) {
-      setCorrectCount((prev) => prev + 1);
       playSound("success");
-      onEarnPoints(30, 1); // Generous reward for quiz master
+      setCorrectCount((prev) => prev + 1);
+      onEarnPoints(20, 1);
     } else {
       playSound("fail");
     }
@@ -95,14 +87,13 @@ export default function QuizArena({ onEarnPoints }: QuizArenaProps) {
 
   const handleNext = () => {
     playSound("click");
-    setSelectedAnswerIndex(null);
-    setIsAnswered(false);
-    
     if (currentQuestionIndex + 1 < quizQuestions.length) {
       setCurrentQuestionIndex((prev) => prev + 1);
+      setSelectedAnswerIndex(null);
+      setIsAnswered(false);
     } else {
       setQuizFinished(true);
-      playSound("powerup");
+      playSound("success");
     }
   };
 
@@ -111,8 +102,8 @@ export default function QuizArena({ onEarnPoints }: QuizArenaProps) {
     setCurrentQuestionIndex(0);
     setSelectedAnswerIndex(null);
     setIsAnswered(false);
-    setQuizFinished(false);
     setCorrectCount(0);
+    setQuizFinished(false);
   };
 
   return (
@@ -122,23 +113,23 @@ export default function QuizArena({ onEarnPoints }: QuizArenaProps) {
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
-          className="bg-white/90 border-4 border-amber-300 p-8 rounded-3xl text-center shadow-2xl relative overflow-hidden"
+          className="bg-slate-900/90 border-4 border-amber-400 p-8 rounded-3xl text-center shadow-2xl relative overflow-hidden text-slate-100"
         >
           {/* Confetti decoration particles */}
           <div className="absolute -top-10 -left-10 text-5xl animate-bounce">🎈</div>
           <div className="absolute -top-10 -right-10 text-5xl animate-bounce delay-100">🎉</div>
           
-          <Trophy className="w-20 h-20 text-amber-500 mx-auto mb-4 stroke-[1.5]" />
-          <h2 className="text-2xl font-black text-amber-800 mb-2">ვიქტორინა დასრულდა!</h2>
-          <p className="text-sm text-slate-600 mb-6 font-medium">
+          <Trophy className="w-20 h-20 text-amber-400 mx-auto mb-4 stroke-[1.5]" />
+          <h2 className="text-2xl font-black text-amber-400 mb-2 uppercase tracking-wide">ვიქტორინა დასრულდა!</h2>
+          <p className="text-sm text-slate-300 mb-6 font-bold">
             შესანიშნავი შედეგია! შენ აჩვენე ნამდვილი ანატომიის მკვლევრის ნიჭი!
           </p>
 
-          <div className="bg-amber-50 max-w-xs mx-auto rounded-3xl p-5 border-2 border-amber-200 mb-6 shadow-inner">
-            <span className="text-xs font-bold text-slate-500 block uppercase mb-1">სწორი პასუხები</span>
+          <div className="bg-slate-950 max-w-xs mx-auto rounded-3xl p-5 border-2 border-amber-500/30 mb-6 shadow-inner">
+            <span className="text-xs font-black text-slate-400 block uppercase mb-1">სწორი პასუხები</span>
             <div className="flex justify-center items-baseline gap-1">
-              <span className="text-4xl font-extrabold text-amber-700">{correctCount}</span>
-              <span className="text-slate-400 text-lg">/ {quizQuestions.length}</span>
+              <span className="text-4xl font-black text-amber-400">{correctCount}</span>
+              <span className="text-slate-500 text-lg">/ {quizQuestions.length}</span>
             </div>
             <div className="mt-3 flex justify-center gap-1">
               {Array.from({ length: correctCount }).map((_, i) => (
@@ -147,37 +138,37 @@ export default function QuizArena({ onEarnPoints }: QuizArenaProps) {
             </div>
           </div>
 
-          <p className="text-xs text-amber-700 bg-amber-50/50 p-2.5 rounded-xl max-w-md mx-auto mb-6 leading-relaxed font-semibold">
-             შენ დაიმსახურე ანატომიის ვარსკვლავური აკადემიკოსის წოდება! დახარჯული ენერგია დაგეხმარება ანალიზში.
+          <p className="text-xs text-slate-300 bg-amber-950/40 p-3 rounded-xl max-w-md mx-auto mb-6 leading-relaxed font-bold border border-amber-500/20">
+             შენ დაიმსახურე ანატომიის ვარსკვლავური აკადემიკოსის წოდება!
           </p>
 
           <button
             onClick={handleRestart}
-            className="bg-amber-500 text-slate-950 px-8 py-3.5 rounded-2xl border-b-4 border-amber-700 font-extrabold text-sm flex items-center justify-center gap-1.5 mx-auto hover:bg-amber-400 active:scale-95 shadow-md shadow-amber-200 transition-all hover:scale-[1.03]"
+            className="bg-amber-400 text-slate-950 px-8 py-3.5 rounded-2xl border-b-4 border-amber-600 font-black text-xs uppercase tracking-wider flex items-center justify-center gap-1.5 mx-auto hover:bg-amber-300 active:scale-95 shadow-lg transition-all hover:scale-[1.03] cursor-pointer"
           >
-            <RotateCcw className="w-4 h-4" />
+            <RotateCcw className="w-4 h-4 text-slate-950 stroke-[3]" />
             თავიდან თამაში ↻
           </button>
         </motion.div>
       ) : (
         /* Active Question Display */
-        <div className="bg-white/95 border-4 border-sky-200 p-6 rounded-3xl shadow-xl">
+        <div className="bg-slate-900/90 border-4 border-sky-500/80 p-6 rounded-3xl shadow-2xl text-slate-100">
           {/* Header information state */}
           <div className="flex justify-between items-center mb-6">
-            <span className="bg-sky-100 text-sky-800 font-mono font-bold text-xs uppercase px-3 py-1 rounded-full flex items-center gap-1">
+            <span className="bg-sky-950 border border-sky-500/30 text-sky-400 font-mono font-black text-xs uppercase px-3 py-1.5 rounded-full flex items-center gap-1">
               <HelpCircle className="w-3.5 h-3.5" />
               კითხვა {currentQuestionIndex + 1} / {quizQuestions.length}
             </span>
-            <div className="flex gap-1.5 text-xs font-bold text-slate-500">
+            <div className="flex gap-1.5 text-xs font-bold text-slate-400">
               <span>სწორი: </span>
-              <span className="text-emerald-600">{correctCount}</span>
+              <span className="text-emerald-400 font-black">{correctCount}</span>
             </div>
           </div>
 
           {/* Question text box */}
-          <div className="bg-sky-50 rounded-2xl p-5 mb-5 border-2 border-sky-150 relative">
-            <span className="absolute -top-3.5 left-6 bg-sky-200 text-sky-850 text-[10px] font-black px-2.5 py-0.5 rounded-md uppercase tracking-wider">ანატომიის გამოცდა</span>
-            <p className="text-base font-extrabold text-slate-800 leading-relaxed text-left">
+          <div className="bg-slate-950 rounded-2xl p-5 mb-5 border-2 border-slate-800 relative">
+            <span className="absolute -top-3.5 left-6 bg-sky-950 border border-sky-500/30 text-sky-400 text-[10px] font-black px-2.5 py-0.5 rounded-md uppercase tracking-wider">ანატომიის გამოცდა</span>
+            <p className="text-base font-black text-white leading-relaxed text-left">
               {activeQuestion.question}
             </p>
           </div>
@@ -188,14 +179,14 @@ export default function QuizArena({ onEarnPoints }: QuizArenaProps) {
               const isSelected = selectedAnswerIndex === idx;
               const isCorrectAnswer = idx === activeQuestion.correctAnswerIndex;
               
-              let btnClass = "bg-white border-2 border-slate-200 text-slate-700 hover:border-sky-300 hover:bg-sky-50/20";
+              let btnClass = "bg-slate-950 border-2 border-slate-850 text-slate-300 hover:border-sky-400 hover:bg-sky-950/20 cursor-pointer";
               if (isAnswered) {
                 if (isCorrectAnswer) {
-                  btnClass = "bg-emerald-100 border-2 border-emerald-500 text-emerald-900 font-bold";
+                  btnClass = "bg-emerald-950 border-2 border-emerald-500 text-emerald-250 font-black";
                 } else if (isSelected && !isCorrectAnswer) {
-                  btnClass = "bg-rose-100 border-2 border-rose-500 text-rose-950 font-bold";
+                  btnClass = "bg-rose-950 border-2 border-rose-500 text-rose-250 font-black";
                 } else {
-                  btnClass = "bg-slate-50 border border-slate-200 text-slate-400 opacity-60";
+                  btnClass = "bg-slate-950/20 border border-slate-900 text-slate-500 opacity-60";
                 }
               }
 
@@ -210,8 +201,8 @@ export default function QuizArena({ onEarnPoints }: QuizArenaProps) {
                   }`}
                 >
                   <span>{option}</span>
-                  {isAnswered && isCorrectAnswer && <CheckCircle className="w-5 h-5 text-emerald-600 shrink-0" />}
-                  {isAnswered && isSelected && !isCorrectAnswer && <XCircle className="w-5 h-5 text-rose-600 shrink-0" />}
+                  {isAnswered && isCorrectAnswer && <CheckCircle className="w-5 h-5 text-emerald-400 shrink-0" />}
+                  {isAnswered && isSelected && !isCorrectAnswer && <XCircle className="w-5 h-5 text-rose-400 shrink-0" />}
                 </button>
               );
             })}
@@ -225,8 +216,8 @@ export default function QuizArena({ onEarnPoints }: QuizArenaProps) {
                 animate={{ opacity: 1, y: 0 }}
                 className={`p-4.5 rounded-2xl mb-5 border-2 ${
                   selectedAnswerIndex === activeQuestion.correctAnswerIndex
-                    ? "bg-emerald-50 border-emerald-250 text-emerald-900"
-                    : "bg-rose-50 border-rose-200 text-rose-900"
+                    ? "bg-emerald-950/40 border-emerald-505 text-emerald-300"
+                    : "bg-rose-950/40 border-rose-505 text-rose-300"
                 }`}
               >
                 <div className="flex gap-2.5 items-start">
@@ -238,12 +229,12 @@ export default function QuizArena({ onEarnPoints }: QuizArenaProps) {
                     )}
                   </div>
                   <div>
-                    <span className="font-extrabold text-xs uppercase block mb-1">
+                    <span className="font-black text-xs uppercase block mb-1">
                       {selectedAnswerIndex === activeQuestion.correctAnswerIndex
                         ? "შესანიშნავია! სწორია!"
                         : "არა უშავს, სცადე თავიდან! ↻"}
                     </span>
-                    <p className="text-xs font-semibold leading-relaxed text-slate-700">
+                    <p className="text-xs font-bold leading-relaxed text-slate-200">
                       {selectedAnswerIndex === activeQuestion.correctAnswerIndex 
                         ? activeQuestion.explanation 
                         : "ამჯერად ვერ გამოიცანი, მაგრამ არაუშავს! სწორი პასუხია: \"" + activeQuestion.options[activeQuestion.correctAnswerIndex] + "\". წაიკითხე განმარტება: " + activeQuestion.explanation}
@@ -258,7 +249,7 @@ export default function QuizArena({ onEarnPoints }: QuizArenaProps) {
           {isAnswered && (
             <button
               onClick={handleNext}
-              className="bg-indigo-600 text-white font-extrabold text-xs py-3 px-6 rounded-2xl shadow-md shadow-indigo-100 flex items-center gap-1.5 ml-auto hover:bg-indigo-700 hover:scale-[1.02] active:scale-95 transition-all"
+              className="bg-indigo-600 text-white font-black text-xs uppercase tracking-wider py-3 px-6 rounded-2xl shadow-lg flex items-center gap-1.5 ml-auto hover:bg-indigo-505 hover:scale-[1.02] active:scale-95 transition-all cursor-pointer border border-indigo-500/30"
             >
               შემდეგი კითხვა
               <ArrowRight className="w-4 h-4" />

@@ -81,28 +81,28 @@ export default function AuthBar({
   };
 
   return (
-    <div className="bg-white/95 rounded-2xl border border-slate-200 p-4 shadow-md w-full relative z-30">
+    <div className="bg-white rounded-3xl border-4 border-slate-200 p-4.5 shadow-lg w-full relative z-30">
       <div className="flex flex-col md:flex-row justify-between items-center gap-3">
         {/* Status display */}
-        <div className="flex items-center gap-2 text-left">
+        <div className="flex items-center gap-3 text-left">
           {user ? (
             <>
-              <div className="bg-emerald-100 p-2 rounded-full text-emerald-600">
+              <div className="bg-emerald-50 p-2.5 rounded-2xl text-emerald-600 border border-emerald-200">
                 <ShieldCheck className="w-5 h-5" />
               </div>
               <div>
-                <span className="text-[11px] text-emerald-700 font-bold block leading-none">შესული ხართ სისტემაში (სინქრონიზებული)</span>
-                <span className="text-xs font-black text-slate-700">{user.email}</span>
+                <span className="text-[11px] text-emerald-600 font-extrabold block leading-none">შესული ხართ სისტემაში (სინქრონიზებული)</span>
+                <span className="text-xs font-black text-slate-800">{user.email}</span>
               </div>
             </>
           ) : (
             <>
-              <div className="bg-amber-100 p-2 rounded-full text-amber-600 animate-pulse">
+              <div className="bg-amber-50 p-2.5 rounded-2xl text-amber-600 border border-amber-200 animate-pulse">
                 <ShieldAlert className="w-5 h-5" />
               </div>
               <div>
-                <span className="text-[11px] text-amber-700 font-bold block leading-none">{warningMessage}</span>
-                <span className="text-[10px] text-slate-500 font-medium">პროგრესი შეინახება ადგილობრივად, სანამ შეხვალთ სისტემაში.</span>
+                <span className="text-[11px] text-amber-600 font-extrabold block leading-none">{warningMessage}</span>
+                <span className="text-[10px] text-slate-500 font-bold block mt-0.5">პროგრესი შეინახება ადგილობრივად, სანამ შეხვალთ სისტემაში.</span>
               </div>
             </>
           )}
@@ -111,7 +111,7 @@ export default function AuthBar({
         {/* Buttons right layout */}
         <div className="flex items-center gap-2.5">
           {!isFirebaseActive && (
-            <span className="text-[10px] bg-slate-100 text-slate-500 px-2 py-1 rounded-md border font-semibold">
+            <span className="text-[10px] bg-indigo-50 text-indigo-600 px-2.5 py-1.5 rounded-xl border-2 border-indigo-200 font-black tracking-wider uppercase">
               ლოკალური რეჟიმი
             </span>
           )}
@@ -119,15 +119,15 @@ export default function AuthBar({
           {user ? (
             <button
               onClick={handleLogoutClick}
-              className="bg-slate-50 text-slate-650 hover:bg-slate-100 hover:text-slate-800 border border-slate-250 py-2 px-3.5 rounded-xl text-xs font-bold transition-all flex items-center gap-1"
+              className="bg-slate-100 text-slate-700 hover:bg-slate-200 hover:text-slate-850 border-2 border-slate-200 py-2.5 px-4 rounded-2xl text-xs font-black transition-all flex items-center gap-1.5 cursor-pointer"
             >
               <LogOut className="w-4 h-4" />
-              გამოსვლა (Logout)
+              გამოსვლა
             </button>
           ) : (
             <button
               onClick={toggleOpen}
-              className="bg-indigo-600 text-white hover:bg-indigo-700 shadow-md py-2 px-4 rounded-xl text-xs font-bold transition-all flex items-center gap-1 hover:scale-[1.03]"
+              className="bg-indigo-500 text-white hover:bg-indigo-600 shadow-md py-2.5 px-4.5 rounded-2xl text-xs font-black transition-all flex items-center gap-1.5 hover:scale-[1.03] cursor-pointer"
             >
               <LogIn className="w-4 h-4" />
               შესვლა / რეგისტრაცია
@@ -145,39 +145,39 @@ export default function AuthBar({
             exit={{ opacity: 0, height: 0 }}
             className="overflow-hidden mt-4"
           >
-            <div className="border-t border-slate-150 pt-4 mt-2">
+            <div className="border-t border-slate-200 pt-4 mt-2">
               <h3 className="text-sm font-extrabold text-slate-800 mb-3 flex items-center gap-1.5 justify-center">
-                <User className="w-4 h-4 text-indigo-500" />
+                <User className="w-4 h-4 text-indigo-600" />
                 {isRegisterMode ? "ანგარიშის შექმნა (Registration)" : "ავტორიზაცია (Login)"}
               </h3>
 
               <form onSubmit={handleSubmit} className="max-w-md mx-auto flex flex-col gap-3">
                 {error && (
-                  <div className="bg-rose-50 text-rose-800 font-bold text-xs p-2.5 rounded-xl border border-rose-200">
+                  <div className="bg-rose-50 text-rose-600 font-extrabold text-xs p-3 rounded-2xl border-2 border-rose-200">
                     ⚠️ {error}
                   </div>
                 )}
 
                 <div>
-                  <label className="text-[10px] font-bold text-slate-500 block mb-1">ელექტრონული ფოსტა (Email)</label>
+                  <label className="text-[10px] font-black text-slate-500 block mb-1">ელექტრონული ფოსტა (Email)</label>
                   <input
                     type="email"
                     placeholder="პატარა_მკვლევარი@gmail.com"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    className="w-full bg-slate-50 border border-slate-200 rounded-xl py-2 px-3 text-xs focus:ring-2 focus:ring-indigo-300 focus:bg-white outline-none font-medium"
+                    className="w-full bg-slate-50 border-2 border-slate-200 rounded-2xl py-2.5 px-4 text-xs text-slate-800 focus:border-indigo-400 outline-none font-bold"
                     required
                   />
                 </div>
 
                 <div>
-                  <label className="text-[10px] font-bold text-slate-500 block mb-1">პაროლი (Password - მინ. 6 სიმბოლო)</label>
+                  <label className="text-[10px] font-black text-slate-500 block mb-1">პაროლი (Password - მინ. 6 სიმბოლო)</label>
                   <input
                     type="password"
                     placeholder="••••••"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    className="w-full bg-slate-50 border border-slate-200 rounded-xl py-2 px-3 text-xs focus:ring-2 focus:ring-indigo-300 focus:bg-white outline-none font-medium"
+                    className="w-full bg-slate-50 border-2 border-slate-200 rounded-2xl py-2.5 px-4 text-xs text-slate-800 focus:border-indigo-400 outline-none font-bold"
                     required
                   />
                 </div>
@@ -185,7 +185,7 @@ export default function AuthBar({
                 <button
                   type="submit"
                   disabled={isLoading}
-                  className="w-full bg-indigo-600 text-white font-extrabold rounded-xl py-2.5 text-xs hover:bg-indigo-700 active:scale-98 transition-all flex items-center justify-center gap-1 cursor-pointer"
+                  className="w-full bg-indigo-500 text-white font-black rounded-2xl py-3 text-xs hover:bg-indigo-600 active:scale-98 transition-all flex items-center justify-center gap-1.5 cursor-pointer"
                 >
                   {isRegisterMode ? (
                     <>
@@ -204,7 +204,7 @@ export default function AuthBar({
                   <button
                     type="button"
                     onClick={toggleMode}
-                    className="text-[10px] text-indigo-650 hover:underline font-bold"
+                    className="text-[10px] text-indigo-600 hover:underline font-extrabold"
                   >
                     {isRegisterMode
                       ? "უკვე გაქვთ ანგარიში? შედით აქ"

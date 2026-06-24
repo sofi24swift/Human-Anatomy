@@ -108,26 +108,26 @@ export default function JointGym({ onEarnPoints }: JointGymProps) {
   return (
     <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
       {/* Skeleton / Clickable joints board */}
-      <div className="lg:col-span-6 bg-white/85 p-5 rounded-3xl border-4 border-emerald-200 shadow-xl relative overflow-hidden flex flex-col items-center">
-        <h3 className="text-xl font-bold text-emerald-700 flex items-center gap-2 mb-2 self-start">
+      <div className="lg:col-span-6 bg-white p-5 rounded-3xl border-4 border-emerald-500 shadow-xl relative overflow-hidden flex flex-col items-center text-slate-850">
+        <h3 className="text-xl font-black text-emerald-600 flex items-center gap-2 mb-2 self-start uppercase tracking-wider">
           <Dumbbell className="w-6 h-6 text-emerald-500 animate-bounce" />
           სახსრების სავარჯიშო დარბაზი
         </h3>
-        <p className="text-xs text-emerald-600 mb-6 bg-emerald-50 p-2.5 rounded-xl self-start">
+        <p className="text-xs text-emerald-900 mb-6 bg-emerald-50 p-3 rounded-2xl border border-emerald-200 self-start font-bold leading-relaxed">
           🦴 დააკლიკე ჩონჩხის კაშკაშა მწვანე წერტილებს (სახსრებს), რომ გაიგო მათი სახელი და აიძულო ივარჯიშონ!
         </p>
 
         {/* Skeleton canvas drawing */}
-        <div className="relative w-full max-w-[280px] h-[360px] bg-sky-900 rounded-3xl p-6 shadow-inner flex justify-center border-4 border-slate-700">
+        <div className="relative w-full max-w-[280px] h-[360px] bg-slate-50 rounded-3xl p-6 shadow-inner flex justify-center border-4 border-slate-200">
           {/* Neon Grid background */}
-          <div className="absolute inset-0 bg-opacity-20 bg-[linear-gradient(to_right,#0ea5e9_1px,transparent_1px),linear-gradient(to_bottom,#0ea5e9_1px,transparent_1px)] bg-[size:1.5rem_1.5rem]" />
+          <div className="absolute inset-0 bg-opacity-10 bg-[linear-gradient(to_right,#10b981_1px,transparent_1px),linear-gradient(to_bottom,#10b981_1px,transparent_1px)] bg-[size:1.5rem_1.5rem]" />
 
           <svg viewBox="0 0 100 130" className="w-[124px] h-full overflow-visible relative z-10">
             {/* Simple skeletal system */}
-            <g stroke="#ffffff" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" fill="none">
+            <g stroke="#475569" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" fill="none">
               {/* Skull */}
-              <circle cx="50" cy="15" r="7" fill="#f8fafc" />
-              <path d="M 47,21 L 53,21 L 50,24 Z" fill="#ffffff" />
+              <circle cx="50" cy="15" r="7" fill="#ffffff" />
+              <path d="M 47,21 L 53,21 L 50,24 Z" fill="#475569" />
               
               {/* Vertebral column / Spine */}
               <line x1="50" y1="22" x2="50" y2="75" strokeWidth="3" />
@@ -138,17 +138,17 @@ export default function JointGym({ onEarnPoints }: JointGymProps) {
               <line x1="42" y1="65" x2="58" y2="65" />
 
               {/* Pelvis bone */}
-              <path d="M 40,75 L 60,75 L 56,83 L 44,83 Z" fill="rgba(255,255,255,0.7)" />
+              <path d="M 40,75 L 60,75 L 56,83 L 44,83 Z" fill="rgba(71, 85, 105, 0.4)" />
 
               {/* Left arm bones (viewer's left = biological right, let's keep it simple) */}
               <line x1="38" y1="30" x2="26" y2="47" strokeWidth="2" /> {/* Shoulder to elbow */}
               <line x1="26" y1="47" x2="16" y2="65" strokeWidth="1.8" /> {/* Elbow to wrist */}
-              <circle cx="16" cy="65" r="2" fill="#ffffff" />
+              <circle cx="16" cy="65" r="2" fill="#475569" />
 
               {/* Right arm bones (biological left) */}
               <line x1="62" y1="30" x2="74" y2="47" strokeWidth="2" id="ske-left-shoulder" />
               <line x1="74" y1="47" x2="84" y2="65" strokeWidth="1.8" id="ske-left-elbow" />
-              <circle cx="84" cy="65" r="2" fill="#ffffff" />
+              <circle cx="84" cy="65" r="2" fill="#475569" />
 
               {/* Left leg bones */}
               <line x1="44" y1="80" x2="40" y2="103" strokeWidth="2.5" /> {/* Hip to knee */}
@@ -206,8 +206,8 @@ export default function JointGym({ onEarnPoints }: JointGymProps) {
                   {/* Tooltip name tag */}
                   {isSelected && (
                     <g transform={`translate(${cx + 8}, ${cy - 2})`}>
-                      <rect x="0" y="-8" width="55" height="13" rx="3" fill="#ffffff" stroke="#10b981" strokeWidth="1" />
-                      <text x="5" y="1" fill="#047857" fontSize="6.5" fontWeight="bold">
+                      <rect x="0" y="-8" width="55" height="13" rx="3" fill="white" stroke="#10b981" strokeWidth="1.5" />
+                      <text x="5" y="1" fill="#059669" fontSize="6.5" fontWeight="bold">
                         {joint.name.split(" ")[0]}
                       </text>
                     </g>
@@ -236,65 +236,65 @@ export default function JointGym({ onEarnPoints }: JointGymProps) {
         </div>
 
         {/* Selected joint banner */}
-        <div className="mt-4 bg-emerald-50 border border-emerald-100 rounded-2xl py-2 px-4 text-center">
-          <span className="text-xs text-emerald-800">აკონტროლებ: </span>
-          <span className="font-bold text-slate-800">{activeJoint.name}</span>
+        <div className="mt-4 bg-slate-50 border-2 border-slate-200 rounded-2xl py-2 px-4 text-center shadow-xs">
+          <span className="text-xs text-emerald-600 font-bold">აკონტროლებ: </span>
+          <span className="font-black text-slate-800">{activeJoint.name}</span>
         </div>
       </div>
 
       {/* Joint Workout Console */}
       <div className="lg:col-span-6 flex flex-col gap-5">
         {/* Joint description card */}
-        <div className="bg-white rounded-3xl border-4 border-slate-200 p-5 shadow-lg relative overflow-hidden">
-          <div className="bg-amber-100 text-amber-900 font-bold text-xs uppercase px-3 py-1 rounded-full w-fit mb-3 flex items-center gap-1 shadow-inner">
-            <Info className="w-4 h-4 text-amber-500" />
+        <div className="bg-white rounded-3xl border-4 border-slate-200 p-5 shadow-lg relative overflow-hidden text-slate-800">
+          <div className="bg-amber-50 text-amber-700 font-black text-xs uppercase px-3 py-1.5 rounded-full w-fit mb-3 flex items-center gap-1 border border-amber-200">
+            <Info className="w-4 h-4 text-amber-600" />
             სხეულის საიდუმლოებები
           </div>
 
-          <h3 className="text-lg font-extrabold text-slate-800 mb-1">{activeJoint.name}</h3>
-          <p className="text-[11px] font-bold text-emerald-600 uppercase mb-3 block">
+          <h3 className="text-lg font-black text-slate-900 mb-1">{activeJoint.name}</h3>
+          <p className="text-[11px] font-black text-emerald-600 uppercase mb-3 block">
             📐 ტიპი: {activeJoint.type}
           </p>
 
-          <p className="text-sm text-slate-600 mb-4 leading-relaxed">
+          <p className="text-sm text-slate-700 mb-4 leading-relaxed font-bold">
             {activeJoint.description}
           </p>
 
           {/* Fact balloon */}
-          <div className="bg-sky-50 rounded-2xl p-4 border-2 border-sky-150 relative">
+          <div className="bg-slate-50 rounded-2xl p-4 border-2 border-slate-200 shadow-sm relative">
             <span className="absolute top-2 right-3 text-2xl animate-spin-slow">🌟</span>
-            <span className="text-xs font-bold text-sky-800 block mb-1">💡 საინტერესო ფაქტი ბავშვისთვის:</span>
-            <p className="text-xs font-semibold text-sky-950 leading-relaxed italic">
+            <span className="text-xs font-black text-sky-600 block mb-1">💡 საინტერესო ფაქტი ბავშვისთვის:</span>
+            <p className="text-xs font-semibold text-slate-600 leading-relaxed italic">
               "{activeJoint.fact}"
             </p>
           </div>
         </div>
 
         {/* Joint Workout simulator actions */}
-        <div className="bg-emerald-500 rounded-3xl border-4 border-emerald-600 p-5 text-white shadow-xl">
+        <div className="bg-white rounded-3xl border-4 border-emerald-500 p-5 text-slate-850 shadow-xl">
           <div className="flex justify-between items-center mb-3">
-            <span className="text-sm font-extrabold flex items-center gap-1 text-emerald-100">
+            <span className="text-sm font-black flex items-center gap-1 text-emerald-600 uppercase tracking-wider">
               <Dumbbell className="w-5 h-5" />
               გავავარჯიშოთ სახსრები!
             </span>
-            <div className="bg-white/20 px-2.5 py-1 rounded-full text-xs font-bold text-white flex items-center gap-0.5 shadow-inner">
-              <Star className="w-3.5 h-3.5 fill-white" />
+            <div className="bg-emerald-50 border border-emerald-200 px-2.5 py-1 rounded-full text-xs font-black text-emerald-700 flex items-center gap-0.5 shadow-xs">
+              <Star className="w-3.5 h-3.5 fill-amber-400 text-amber-500" />
               ⭐ +20 ქულა ბალანსზე!
             </div>
           </div>
 
-          <p className="text-xs text-emerald-105 mb-4 leading-relaxed font-semibold">
+          <p className="text-xs text-slate-600 mb-4 leading-relaxed font-bold">
             დააწკაპუნე სახსრის მოძრაობის რომელიმე ღილაკს, რომ ივარჯიშო და აავსო ვარჯიშის პროგრესის ზოლი!
           </p>
 
           {/* Progress Tracker bar */}
-          <div className="mb-4 bg-emerald-700 rounded-full h-5 p-1 flex items-center shadow-inner relative">
+          <div className="mb-4 bg-slate-100 border border-slate-200 rounded-full h-5 p-1 flex items-center shadow-inner relative">
             <motion.div
               animate={{ width: `${muscleWorkoutLevel}%` }}
-              className="bg-amber-400 h-full rounded-full transition-all duration-300"
+              className="bg-gradient-to-r from-emerald-500 to-amber-400 h-full rounded-full transition-all duration-300"
               style={{ minWidth: "10px" }}
             />
-            <span className="absolute inset-0 flex items-center justify-center text-[10px] font-bold text-emerald-50 text-center uppercase tracking-wide">
+            <span className="absolute inset-0 flex items-center justify-center text-[10px] font-black text-emerald-800 text-center uppercase tracking-wider">
               {muscleWorkoutLevel === 0 ? "მიყევი მოძრაობებს აფეთქებამდე" : `ვარჯიშის ძალა: ${muscleWorkoutLevel}%`}
             </span>
           </div>
@@ -305,9 +305,9 @@ export default function JointGym({ onEarnPoints }: JointGymProps) {
               <button
                 key={mov}
                 onClick={() => handleSimulateMovement(mov)}
-                className="bg-white/95 text-emerald-800 hover:bg-white border-2 border-emerald-250 p-2.5 rounded-2xl text-xs font-bold shadow-md hover:scale-[1.03] active:scale-95 transition-all text-center flex items-center justify-center gap-1"
+                className="bg-white text-emerald-600 hover:text-emerald-500 hover:border-emerald-400 border-2 border-slate-200 p-3 rounded-2xl text-xs font-black shadow-sm hover:scale-[1.03] active:scale-95 transition-all text-center flex items-center justify-center gap-1.5 cursor-pointer"
               >
-                <RotateCw className="w-3.5 h-3.5 text-emerald-500" />
+                <RotateCw className="w-3.5 h-3.5 text-emerald-400" />
                 {mov.split(" (")[0]}
               </button>
             ))}

@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 import { playSound } from "./utils/audio";
-import { Compass, Dumbbell, Shield, HelpCircle, Book, Star, Award, Sparkles, LogIn, Activity } from "lucide-react";
+import { Compass, Dumbbell, Shield, HelpCircle, Book, Star, Award, Sparkles, LogIn, Activity, Flame } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
+const AppLogo = "/src/assets/images/human_body_logo_1782314002135.jpg";
 
 // Import modular components
 import BodyPlanes from "./components/BodyPlanes";
@@ -256,20 +257,35 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-sky-50/50 pb-12 font-sans overflow-x-hidden">
+    <div className="min-h-screen blueprint-grid pb-12 font-sans overflow-x-hidden text-slate-800">
       
-      {/* Georgian Playful light sky Header banner */}
-      <div className="bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-amber-200 via-sky-100 to-sky-50 pb-8 pt-4 px-4 shadow-sm border-b border-sky-100">
-        <div className="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
+      {/* Georgian Playful bright laboratory Header banner */}
+      <div className="bg-gradient-to-r from-amber-100 via-sky-100 to-rose-100/95 backdrop-blur-md pb-8 pt-6 px-4 shadow-lg border-b-4 border-amber-400 relative overflow-hidden">
+        {/* Glow behind the header */}
+        <div className="absolute -top-24 left-1/2 -translate-x-1/2 w-96 h-48 bg-amber-400/20 rounded-full blur-3xl pointer-events-none" />
+        
+        <div className="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4 relative z-10">
           
           {/* Cute Application Brand & title */}
-          <div className="flex items-center gap-3 text-center md:text-left">
-            <div className="bg-amber-400 p-2.5 rounded-3xl border-3 border-amber-500 shadow-md transform rotate-[-3deg] hover:rotate-3 transition-transform">
-              <span className="text-3xl">🦴</span>
-            </div>
+          <div className="flex items-center gap-4 text-center md:text-left">
+            <motion.div 
+              whileHover={{ scale: 1.05, rotate: 3 }}
+              className="relative w-16 h-16 md:w-20 md:h-20 rounded-3xl overflow-hidden border-4 border-amber-400 shadow-lg bg-slate-100 flex items-center justify-center shrink-0 cursor-pointer"
+              onClick={() => playSound("pop")}
+            >
+              <img 
+                src={AppLogo} 
+                alt="ადამიანის სხეული Logo" 
+                className="w-full h-full object-cover"
+                referrerPolicy="no-referrer"
+              />
+            </motion.div>
             <div>
-              <h1 className="text-2xl font-black text-slate-800 tracking-tight">ანატომია ბავშვებისთვის</h1>
-              <p className="text-xs text-sky-700 font-bold">შენი სხეული - საოცარი და საიდუმლო სამყარო ქართულად! 🇬🇪</p>
+              <h1 className="text-2xl md:text-3xl font-black text-slate-900 tracking-tight leading-none mb-1 flex items-center justify-center md:justify-start gap-2">
+                ადამიანის სხეული
+                <span className="text-xs font-black bg-rose-500 text-white px-2.5 py-1 rounded-full uppercase tracking-wider hidden sm:inline-block">The Human Body</span>
+              </h1>
+              <p className="text-xs md:text-sm text-sky-700 font-extrabold">შენი სხეული - საოცარი და საიდუმლო სამყარო ქართულად! 🇬🇪</p>
             </div>
           </div>
 
@@ -278,13 +294,13 @@ export default function App() {
             {/* Stars counter */}
             <motion.div
               whileHover={{ scale: 1.05 }}
-              className="bg-amber-400 border-3 border-amber-500 py-2.5 px-4 rounded-2xl flex items-center gap-2.5 shadow-md relative group select-none cursor-pointer"
+              className="bg-amber-400 border-3 border-amber-500 py-2.5 px-4 rounded-2xl flex items-center gap-2.5 shadow-md relative group select-none cursor-pointer text-slate-950"
               onClick={() => playSound("success")}
             >
-              <div className="bg-white p-1 rounded-full"><Star className="w-5 h-5 text-amber-500 fill-amber-300 animate-spin-slow" /></div>
+              <div className="bg-slate-900 p-1 rounded-full"><Star className="w-5 h-5 text-amber-400 fill-amber-300 animate-spin-slow" /></div>
               <div className="text-left leading-none">
-                <span className="text-[10px] font-black text-amber-900 block tracking-tight">ვარსკვლავები</span>
-                <span className="text-xl font-black text-slate-900">{stars}</span>
+                <span className="text-[10px] font-black text-amber-950 block tracking-tight">ვარსკვლავები</span>
+                <span className="text-xl font-black">{stars}</span>
               </div>
               <div className="absolute -top-1.5 -right-1.5 bg-red-500 text-white text-[9px] font-bold px-1.5 py-0.5 rounded-full shadow-xs opacity-0 group-hover:opacity-100 transition-opacity">⭐</div>
             </motion.div>
@@ -292,13 +308,13 @@ export default function App() {
             {/* Points counter */}
             <motion.div
               whileHover={{ scale: 1.05 }}
-              className="bg-emerald-400 border-3 border-emerald-500 py-2.5 px-4 rounded-2xl flex items-center gap-2.5 shadow-md relative group select-none cursor-pointer"
+              className="bg-emerald-400 border-3 border-emerald-500 py-2.5 px-4 rounded-2xl flex items-center gap-2.5 shadow-md relative group select-none cursor-pointer text-slate-950"
               onClick={() => playSound("powerup")}
             >
-              <div className="bg-white p-1 rounded-full"><Award className="w-5 h-5 text-emerald-500 stroke-[1.5]" /></div>
+              <div className="bg-slate-900 p-1 rounded-full"><Award className="w-5 h-5 text-emerald-400 stroke-[2]" /></div>
               <div className="text-left leading-none">
-                <span className="text-[10px] font-black text-emerald-900 block tracking-tight">ქულა (Points)</span>
-                <span className="text-xl font-black text-slate-900">{points}</span>
+                <span className="text-[10px] font-black text-emerald-950 block tracking-tight">ქულა (Points)</span>
+                <span className="text-xl font-black">{points}</span>
               </div>
               <div className="absolute -top-1.5 -right-1.5 bg-blue-600 text-white text-[9px] font-bold px-1.5 py-0.5 rounded-full shadow-xs opacity-0 group-hover:opacity-100 transition-opacity">XP</div>
             </motion.div>
@@ -319,13 +335,13 @@ export default function App() {
         />
 
         {/* Tab/Dashboard navigation */}
-        <div className="bg-white p-3.5 rounded-2xl md:rounded-3xl border border-slate-200 shadow-md flex overflow-x-auto gap-2.5 scrollbar-thin scrollbar-thumb-sky-200">
+        <div className="bg-gradient-to-r from-sky-50 via-amber-50 to-pink-50 p-3.5 rounded-3xl border-4 border-amber-300 shadow-xl flex overflow-x-auto gap-2.5 scrollbar-thin scrollbar-thumb-slate-300">
           <button
             onClick={() => handleTabChange("organs")}
-            className={`flex-1 shrink-0 p-3.5 rounded-2xl font-bold text-xs md:text-sm flex items-center justify-center gap-2 transition-all cursor-pointer ${
+            className={`flex-1 shrink-0 p-3.5 rounded-2xl font-black text-xs md:text-sm flex items-center justify-center gap-2 transition-all cursor-pointer border-2 ${
               activeTab === "organs"
-                ? "bg-pink-400 text-slate-950 shadow-md shadow-pink-100 scale-[1.02] border-b-4 border-pink-650"
-                : "bg-slate-50 text-slate-600 hover:bg-pink-50"
+                ? "bg-pink-400 text-slate-950 shadow-lg neon-shadow-pink scale-[1.03] border-pink-500"
+                : "bg-slate-100 text-slate-600 border-slate-200 hover:bg-slate-200 hover:text-slate-800"
             }`}
           >
             <Activity className="w-4 h-4" />
@@ -334,10 +350,10 @@ export default function App() {
 
           <button
             onClick={() => handleTabChange("planes")}
-            className={`flex-1 shrink-0 p-3.5 rounded-2xl font-bold text-xs md:text-sm flex items-center justify-center gap-2 transition-all cursor-pointer ${
+            className={`flex-1 shrink-0 p-3.5 rounded-2xl font-black text-xs md:text-sm flex items-center justify-center gap-2 transition-all cursor-pointer border-2 ${
               activeTab === "planes"
-                ? "bg-amber-400 text-slate-950 shadow-md shadow-amber-200 scale-[1.02] border-b-4 border-amber-600"
-                : "bg-slate-50 text-slate-600 hover:bg-amber-50"
+                ? "bg-amber-400 text-slate-950 shadow-lg neon-shadow-amber scale-[1.03] border-amber-500"
+                : "bg-slate-100 text-slate-600 border-slate-200 hover:bg-slate-200 hover:text-slate-800"
             }`}
           >
             <Compass className="w-4 h-4" />
@@ -346,10 +362,10 @@ export default function App() {
           
           <button
             onClick={() => handleTabChange("joints")}
-            className={`flex-1 shrink-0 p-3.5 rounded-2xl font-bold text-xs md:text-sm flex items-center justify-center gap-2 transition-all cursor-pointer ${
+            className={`flex-1 shrink-0 p-3.5 rounded-2xl font-black text-xs md:text-sm flex items-center justify-center gap-2 transition-all cursor-pointer border-2 ${
               activeTab === "joints"
-                ? "bg-emerald-400 text-slate-950 shadow-md shadow-emerald-200 scale-[1.02] border-b-4 border-emerald-600"
-                : "bg-slate-50 text-slate-600 hover:bg-emerald-50"
+                ? "bg-emerald-400 text-slate-950 shadow-lg neon-shadow-emerald scale-[1.03] border-emerald-500"
+                : "bg-slate-100 text-slate-600 border-slate-200 hover:bg-slate-200 hover:text-slate-800"
             }`}
           >
             <Dumbbell className="w-4 h-4" />
@@ -358,22 +374,22 @@ export default function App() {
 
           <button
             onClick={() => handleTabChange("skin")}
-            className={`flex-1 shrink-0 p-3.5 rounded-2xl font-bold text-xs md:text-sm flex items-center justify-center gap-2 transition-all cursor-pointer ${
+            className={`flex-1 shrink-0 p-3.5 rounded-2xl font-black text-xs md:text-sm flex items-center justify-center gap-2 transition-all cursor-pointer border-2 ${
               activeTab === "skin"
-                ? "bg-rose-400 text-slate-950 shadow-md shadow-rose-200 scale-[1.02] border-b-4 border-rose-600"
-                : "bg-slate-50 text-slate-600 hover:bg-rose-50"
+                ? "bg-rose-400 text-slate-950 shadow-lg neon-shadow-rose scale-[1.03] border-rose-500"
+                : "bg-slate-100 text-slate-600 border-slate-200 hover:bg-slate-200 hover:text-slate-800"
             }`}
           >
-            <Shield className="w-4 h-4" />
-            კანის ფარი
+            <Flame className="w-4 h-4 text-rose-500 animate-pulse" />
+            კანი და დამწვრობები
           </button>
 
           <button
             onClick={() => handleTabChange("quiz")}
-            className={`flex-1 shrink-0 p-3.5 rounded-2xl font-bold text-xs md:text-sm flex items-center justify-center gap-2 transition-all cursor-pointer ${
+            className={`flex-1 shrink-0 p-3.5 rounded-2xl font-black text-xs md:text-sm flex items-center justify-center gap-2 transition-all cursor-pointer border-2 ${
               activeTab === "quiz"
-                ? "bg-sky-400 text-slate-950 shadow-md shadow-sky-200 scale-[1.02] border-b-4 border-sky-600"
-                : "bg-slate-50 text-slate-600 hover:bg-sky-50"
+                ? "bg-sky-400 text-slate-950 shadow-lg neon-shadow-sky scale-[1.03] border-sky-500"
+                : "bg-slate-100 text-slate-600 border-slate-200 hover:bg-slate-200 hover:text-slate-800"
             }`}
           >
             <HelpCircle className="w-4 h-4" />
@@ -382,10 +398,10 @@ export default function App() {
 
           <button
             onClick={() => handleTabChange("library")}
-            className={`flex-1 shrink-0 p-3.5 rounded-2xl font-bold text-xs md:text-sm flex items-center justify-center gap-2 transition-all cursor-pointer ${
+            className={`flex-1 shrink-0 p-3.5 rounded-2xl font-black text-xs md:text-sm flex items-center justify-center gap-2 transition-all cursor-pointer border-2 ${
               activeTab === "library"
-                ? "bg-indigo-400 text-slate-950 shadow-md shadow-indigo-200 scale-[1.02] border-b-4 border-indigo-600"
-                : "bg-slate-50 text-slate-600 hover:bg-indigo-50"
+                ? "bg-indigo-400 text-slate-950 shadow-lg neon-shadow-indigo scale-[1.03] border-indigo-500"
+                : "bg-slate-100 text-slate-600 border-slate-200 hover:bg-slate-200 hover:text-slate-800"
             }`}
           >
             <Book className="w-4 h-4" />
@@ -415,7 +431,7 @@ export default function App() {
       </div>
       
       {/* Footer footer */}
-      <footer className="mt-16 text-center text-slate-400 text-[11px] font-medium leading-normal max-w-md mx-auto px-4">
+      <footer className="mt-16 text-center text-slate-600 text-[11px] font-medium leading-normal max-w-md mx-auto px-4">
         <p>© 2026. ანატომია ბავშვებისთვის - ქართული საგანმანათლებლო პლატფორმა.</p>
         <p className="mt-1">დამზადებულია სიყვარულით პატარა მეცნიერებისთვის. 🧬✨</p>
       </footer>

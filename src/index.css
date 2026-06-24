@@ -1,1 +1,53 @@
 @import "tailwindcss";
+
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;700;900&family=JetBrains+Mono:wght@400;700&display=swap');
+
+@theme {
+  --font-sans: "Outfit", "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+}
+
+/* Playful Sunny Laboratory Grid background */
+.blueprint-grid {
+  background-color: #f8fafc; /* super bright slate-50 background */
+  background-image: 
+    radial-gradient(at 50% 0%, rgba(251, 191, 36, 0.22) 0px, transparent 60%),
+    radial-gradient(at 0% 100%, rgba(244, 114, 182, 0.18) 0px, transparent 60%),
+    radial-gradient(at 100% 100%, rgba(56, 189, 248, 0.18) 0px, transparent 60%),
+    linear-gradient(rgba(99, 102, 241, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(99, 102, 241, 0.04) 1px, transparent 1px);
+  background-size: 100% 100%, 100% 100%, 100% 100%, 32px 32px, 32px 32px;
+}
+
+/* Smooth neon pulse shadows */
+.neon-shadow-amber {
+  box-shadow: 0 0 20px rgba(251, 191, 36, 0.15);
+}
+.neon-shadow-pink {
+  box-shadow: 0 0 20px rgba(244, 114, 182, 0.15);
+}
+.neon-shadow-emerald {
+  box-shadow: 0 0 20px rgba(52, 211, 153, 0.15);
+}
+.neon-shadow-rose {
+  box-shadow: 0 0 20px rgba(251, 113, 133, 0.15);
+}
+.neon-shadow-sky {
+  box-shadow: 0 0 20px rgba(56, 189, 248, 0.15);
+}
+.neon-shadow-indigo {
+  box-shadow: 0 0 20px rgba(129, 140, 248, 0.15);
+}
+
+@keyframes spin-slow {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-spin-slow {
+  animation: spin-slow 20s linear infinite;
+}

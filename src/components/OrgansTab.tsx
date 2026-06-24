@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { playSound } from "../utils/audio";
 import { motion, AnimatePresence } from "motion/react";
-import { Award, HelpCircle, Check, RotateCcw, Info, Sparkles, BookOpen } from "lucide-react";
+import { Award, HelpCircle, Check, RotateCcw, Info, Sparkles } from "lucide-react";
 
 interface OrganInfo {
   id: string;
@@ -105,7 +105,7 @@ const organsData: OrganInfo[] = [
     analogyTitle: "ჯადოსნური ბლენდერი",
     analogyDesc: "კუჭი ჰგავს სამზარეულოს მძლავრ ბლენდერს, რომელიც შენს მიერ შეჭამილ გემრიელ საჭმელს სპეციალური წვენებით ფაფად აქცევს, რათა ორგანიზმმა მარტივად შეიწოვოს ის!",
     description: "კუჭი არის ელასტიური ტომარა, რომელშიც ხვდება საკვები საყლაპავი მილიდან. აქ საკვები ერევა კუჭის მჟავასა და ფერმენტებს, რომლებიც შლიან ცილებსა და სხვა ნივთიერებებს. კუჭი საჭმელს რამდენიმე საათის განმავლობაში ამუშავებს, სანამ მას ნაწლავებში გადაუშვებს.",
-    funFact: "კუჭი იმდენად ძლიერ მჟავას გამოიმუშავებს, რომ მას ზოგიერთი ლითონის დადნობაც კი შეუძლია! თუმცა, საკუთარ თავს არ აზიანებს, რადგან სპეციალური დამცავი ლორწოთია დაფარული.",
+    funFact: "კუჭი იმდენად ძლიერ მჟავას გამოიმუშავებს, რომ მას ზოგიერთი ლითონის დადნობაც კი შეუძლია! თუმცა, საკუთარ თავს არ აზიანებს, რადგან დამცავი ლორწოთია დაფარული.",
     color: "#f59e0b", // amber
     textColor: "text-amber-805",
     bgColor: "bg-amber-50",
@@ -128,7 +128,7 @@ const organsData: OrganInfo[] = [
     emoji: "🛡️",
     analogyTitle: "ჭკვიანი ქიმიური ლაბორატორია",
     analogyDesc: "წარმოიდგინე სუპერ-ლაბორატორია, რომელიც წმენდს სხეულს მავნე ნივთიერებებისგან, აწესრიგებს ვიტამინებს და ინახავს ენერგიას თამაშისთვის!",
-    description: "ღვიძლი ჩვენი სხეულის ყველაზე დიდი შინაგანი ორგანოა. ის ასრულებს 500-ზე მეტ მნიშვნელოვან საქმეს! ის მუშაობს როგორც ფილტრი: წმენდს სისხლს ტოქსინებისგან, გამოიმუშავებს ნაღველს საჭმლის მონელებისთვის და ინახავს გლუკოზას (შაქარს), რომელიც მოულოდნელი სირბილისას ენერგიას გაძლევს.",
+    description: "ღვიძლი ჩვენი სხეულის ყველაზე დიდი შინაგანი ორგანოა. ის ასრულებს 500-ზე მეტ მნიშვნელოვან საქმეს! ის მუშაობს როგორც ფილტრი: წმენდს სისხს ტოქსინებისგან, გამოიმუშავებს ნაღველს საჭმლის მონელებისთვის და ინახავს გლუკოზას (შაქარს), რომელიც მოულოდნელი სირბილისას ენერგიას გაძლევს.",
     funFact: "ღვიძლს აქვს საოცარი სუპერძალა: თუ მისი დიდი ნაწილი დაზიანდა, მას შეუძლია თავიდან გაიზარდოს და სრულად აღიდგინოს თავისი პირვანდელი ზომა კისრამდე!",
     color: "#8b5cf6", // purple
     textColor: "text-purple-750",
@@ -151,7 +151,7 @@ const organsData: OrganInfo[] = [
     latinName: "Renes",
     emoji: "🧼",
     analogyTitle: "წყლის გამწმენდი ფილტრები",
-    analogyDesc: "ორგანიზმში წყლისა და სითხის ბალანსის ხელშეწყობისთვის, ეს ორი პატარა ლობიო ფილტრავს ჩვენს სისხლს და ზედმეტ, უსარგებლო წყალს შარდად აქცევს!",
+    analogyDesc: "ორგანიზმში წყლისა და სითხის ბალანსის ხელშეწყობისთვის, ეს ორი პატარა ლობიო ფილტრავს ჩვენს სისხს და ზედმეტ, უსარგებლო წყალს შარდად აქცევს!",
     description: "თირკმელები არის ორი ლობიოს ფორმის პატარა ორგანო, რომლებიც ზურგის მხარეს, წელის ოდნავ ზემოთ მდებარეობს. ისინი დღე-ღამეში ბევრჯერ ფილტრავენ მთელ ჩვენს სისხლს, აშორებენ ნარჩენებს და არეგულირებენ ორგანიზმში სითხისა და მარილების რაოდენობას.",
     funFact: "თუმცა ადამიანს ორი თირკმელი აქვს, სრულიად ჯანმრთელი და ხანგრძლივი ცხოვრება მხოლოდ ერთი თირკმლითაც კი არის შესაძლებელი!",
     color: "#10b981", // emerald
@@ -226,31 +226,30 @@ export default function OrgansTab({ onEarnPoints }: OrgansTabProps) {
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
-      
       {/* SECTION 1: INTERACTIVE SILHOUETTE VIEWER - 7 cols */}
-      <div className="lg:col-span-7 bg-white/80 p-5 md:p-6 rounded-3xl border-4 border-amber-200 shadow-xl relative overflow-hidden">
-        <h3 className="text-xl font-bold text-amber-700 mb-2 flex items-center gap-2">
+      <div className="lg:col-span-7 bg-white p-5 md:p-6 rounded-3xl border-4 border-amber-400 shadow-xl relative overflow-hidden text-slate-800">
+        <h3 className="text-xl font-black text-amber-500 mb-2 flex items-center gap-2">
           <span>🫁 ორგანოთა ინტერაქტიული რუკა</span>
         </h3>
-        <p className="text-xs text-amber-600 mb-4 bg-amber-50 p-2.5 rounded-xl font-medium leading-relaxed">
+        <p className="text-xs text-amber-900 mb-4 bg-amber-50 p-3 rounded-2xl border border-amber-250 leading-relaxed font-bold">
           💡 დააკლიკე ადამიანის სხეულზე გამოსახულ ნებისმიერ ფერად ორგანოს, რომ გაიგო რას აკეთებს ის და გაიარო საინტერესო ქვიზი!
         </p>
 
         {/* Silhouette Vector Stage */}
-        <div className="relative w-full h-[390px] md:h-[430px] flex justify-center items-center bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-sky-50 via-sky-100/50 to-white rounded-2xl border border-sky-100 p-4">
+        <div className="relative w-full h-[390px] md:h-[430px] flex justify-center items-center bg-slate-50 rounded-3xl border-4 border-slate-200 p-4 shadow-inner">
           <svg viewBox="0 0 200 300" className="w-[190px] h-full overflow-visible select-none">
             {/* Soft grid decoration */}
             <rect width="200" height="300" fill="none" rx="10" />
 
             {/* Human body outline outer shadow */}
-            <g className="opacity-40 blur-xs">
-              <path d="M 100,20 C 120,20 125,50 115,65 C 112,70 117,80 128,85 C 145,95 155,108 152,145 C 150,165 142,175 145,190 C 148,205 138,245 135,275 C 132,290 122,295 115,295 C 108,295 105,285 100,285 C 95,285 92,295 85,295 C 78,295 68,290 65,275 C 62,245 52,205 55,190 C 58,175 50,165 48,145 C 45,108 55,95 72,85 C 83,80 88,70 85,65 C 75,50 80,20 100,20 Z" fill="#d1e2f3" />
+            <g className="opacity-45 blur-xs">
+              <path d="M 100,20 C 120,20 125,50 115,65 C 112,70 117,80 128,85 C 145,95 155,108 152,145 C 150,165 142,175 145,190 C 148,205 138,245 135,275 C 132,290 122,295 115,295 C 108,295 105,285 100,285 C 95,285 92,295 85,295 C 78,295 68,290 65,275 C 62,245 52,205 55,190 C 58,175 50,165 48,145 C 45,108 55,95 72,85 C 83,80 88,70 85,65 C 75,50 80,20 100,20 Z" fill="#cbd5e1" />
             </g>
 
             {/* Human body main silhouette */}
             <path 
               d="M 100,20 C 120,20 125,50 115,65 C 112,70 117,80 128,85 C 145,95 155,108 152,145 C 150,165 142,175 145,190 C 148,205 138,245 135,275 C 132,290 122,295 115,295 C 108,295 105,285 100,285 C 95,285 92,295 85,295 C 78,295 68,290 65,275 C 62,245 52,205 55,190 C 58,175 50,165 48,145 C 45,108 55,95 72,85 C 83,80 88,70 85,65 C 75,50 80,20 100,20 Z" 
-              fill="#f1f5f9" 
+              fill="#e2e8f0" 
               stroke="#cbd5e1" 
               strokeWidth="2.5" 
               strokeLinejoin="round"
@@ -258,8 +257,8 @@ export default function OrgansTab({ onEarnPoints }: OrgansTabProps) {
 
             {/* Cute face decoration */}
             <g className="opacity-95 pointer-events-none">
-              <circle cx="94" cy="42" r="2.2" fill="#334155" />
-              <circle cx="106" cy="42" r="2.2" fill="#334155" />
+              <circle cx="94" cy="42" r="2.2" fill="#475569" />
+              <circle cx="106" cy="42" r="2.2" fill="#475569" />
               {/* Joyous smile */}
               <path d="M 95 48 Q 100 53 105 48" fill="none" stroke="#e11d48" strokeWidth="2" strokeLinecap="round" />
               {/* Pink cheeks */}
@@ -408,8 +407,8 @@ export default function OrgansTab({ onEarnPoints }: OrgansTabProps) {
           </svg>
 
           {/* Micro badges on the stage listing the organs for interactive helper */}
-          <div className="absolute top-3 left-3 bg-white/90 border border-amber-200 py-1.5 px-3 rounded-xl shadow-xs text-[10px] flex flex-col gap-1 text-slate-700">
-            <span className="font-bold text-amber-800">✅ პასუხის სტატუსი:</span>
+          <div className="absolute top-3 left-3 bg-white/95 border-2 border-slate-200 py-2 px-3 rounded-2xl shadow-md text-[10px] flex flex-col gap-1 text-slate-700">
+            <span className="font-black text-amber-600 uppercase tracking-wider">✅ პასუხის სტატუსი:</span>
             <div className="flex flex-col gap-0.5 font-semibold">
               <span className="flex items-center gap-1">🧠 ტვინი: {solvedOrgans.includes("brain") ? "🟢" : "⚪"}</span>
               <span className="flex items-center gap-1">🫁 ფილტვები: {solvedOrgans.includes("lungs") ? "🟢" : "⚪"}</span>
@@ -427,15 +426,16 @@ export default function OrgansTab({ onEarnPoints }: OrgansTabProps) {
             <button
               key={org.id}
               onClick={() => handleOrganClick(org.id)}
-              className={`px-3 py-1.5 rounded-full font-bold flex items-center gap-1 border-2 transition-all ${
+              className={`px-3 py-1.5 rounded-full font-bold flex items-center gap-1 border-2 transition-all cursor-pointer ${
                 selectedOrgan === org.id
-                  ? `${org.textColor} ${org.bgColor} ${org.borderColor} scale-[1.05] shadow-xs`
-                  : "bg-white text-slate-650 hover:bg-amber-50"
+                  ? "bg-slate-900 text-white scale-[1.05] shadow-md"
+                  : "bg-white text-slate-700 border-slate-200 hover:bg-amber-50 hover:border-amber-400 shadow-xs"
               }`}
+              style={selectedOrgan === org.id ? { borderColor: org.color } : {}}
             >
               <span>{org.emoji}</span>
               <span>{org.name}</span>
-              {solvedOrgans.includes(org.id) && <Check className="w-3 h-3 text-emerald-600 stroke-[3]" />}
+              {solvedOrgans.includes(org.id) && <Check className="w-3 h-3 text-emerald-400 stroke-[3]" />}
             </button>
           ))}
         </div>
@@ -452,15 +452,16 @@ export default function OrgansTab({ onEarnPoints }: OrgansTabProps) {
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: -20 }}
             transition={{ duration: 0.22 }}
-            className={`rounded-3xl border-4 ${activeOrgan.borderColor} ${activeOrgan.bgColor} p-5 shadow-lg relative`}
+            className="rounded-3xl border-4 p-5 shadow-lg relative bg-white text-slate-800"
+            style={{ borderColor: activeOrgan.color }}
           >
             {/* Latin / Scientific header badge */}
             <div className="flex justify-between items-start gap-2 mb-3">
-              <span className="bg-white/80 text-[10px] uppercase font-mono font-black text-slate-700 px-2.5 py-1 rounded-full border border-slate-205 shadow-2xs">
+              <span className="bg-slate-100 text-[10px] uppercase font-mono font-black text-slate-600 px-2.5 py-1.5 rounded-full border border-slate-200 shadow-sm">
                 🧬 {activeOrgan.latinName}
               </span>
               {solvedOrgans.includes(activeOrgan.id) && (
-                <span className="bg-emerald-500 text-white text-[9px] font-black uppercase px-2 py-0.5 rounded-full flex items-center gap-0.5 shadow-sm">
+                <span className="bg-emerald-500 text-slate-950 text-[9px] font-black uppercase px-2 py-0.5 rounded-full flex items-center gap-0.5 shadow-sm">
                   <Check className="w-2.5 h-2.5 stroke-[4]" /> შესრულებულია
                 </span>
               )}
@@ -468,20 +469,20 @@ export default function OrgansTab({ onEarnPoints }: OrgansTabProps) {
 
             {/* Organ title and main children icon */}
             <div className="flex items-center gap-3 mb-3">
-              <div className="bg-white p-2.5 rounded-2xl text-3xl shadow-sm border border-slate-100 transform -rotate-3 hover:rotate-3 transition-transform">
+              <div className="bg-slate-50 p-3 rounded-2xl text-3xl shadow-md border border-slate-200 transform -rotate-3 hover:rotate-3 transition-transform">
                 {activeOrgan.emoji}
               </div>
               <div>
-                <h4 className="text-xl font-black text-slate-800 leading-none">{activeOrgan.name}</h4>
-                <p className="text-xs text-slate-500 font-bold mt-1 italic">ლათინურად: {activeOrgan.latinName}</p>
+                <h4 className="text-xl font-black text-slate-900 leading-none">{activeOrgan.name}</h4>
+                <p className="text-xs text-slate-500 font-extrabold mt-1 italic">ლათინურად: {activeOrgan.latinName}</p>
               </div>
             </div>
 
             {/* Analogy Box (Super Important for Child Learning style!) */}
-            <div className="bg-white/90 p-4 rounded-2xl border-2 border-dashed border-amber-300 shadow-sm mb-4">
-              <span className="text-[10px] font-black text-amber-805 block tracking-tight uppercase mb-0.5">💡 მარტივი ანალოგია ბავშვებისთვის:</span>
-              <span className="font-extrabold text-sm text-slate-800 block mb-1">✨ {activeOrgan.analogyTitle}</span>
-              <p className="text-xs text-slate-600 leading-relaxed font-semibold">
+            <div className="bg-amber-55/65 p-4 rounded-2xl border-2 border-dashed border-amber-300 shadow-sm mb-4">
+              <span className="text-[10px] font-black text-amber-700 block tracking-wider uppercase mb-0.5">💡 მარტივი ანალოგია ბავშვებისთვის:</span>
+              <span className="font-black text-sm text-slate-900 block mb-1">✨ {activeOrgan.analogyTitle}</span>
+              <p className="text-xs text-slate-700 leading-relaxed font-bold">
                 {activeOrgan.analogyDesc}
               </p>
             </div>
@@ -489,17 +490,17 @@ export default function OrgansTab({ onEarnPoints }: OrgansTabProps) {
             {/* Scientific Description made easy */}
             <div className="mb-4">
               <span className="text-[10px] font-black text-slate-500 block uppercase tracking-wider mb-1">🔍 რას აკეთებს სხეულში?</span>
-              <p className="text-xs text-slate-700 font-semibold leading-relaxed">
+              <p className="text-xs text-slate-700 font-bold leading-relaxed">
                 {activeOrgan.description}
               </p>
             </div>
 
             {/* Fun Fact */}
-            <div className="bg-white/50 p-3.5 rounded-2xl border border-slate-200 shadow-inner">
-              <span className="text-[10px] font-black text-slate-505 uppercase block mb-1 flex items-center gap-1">
+            <div className="bg-slate-50 p-3.5 rounded-2xl border border-slate-200 shadow-sm">
+              <span className="text-[10px] font-black text-slate-500 uppercase block mb-1 flex items-center gap-1">
                 <span>⭐ საინტერესო ფაქტი:</span>
               </span>
-              <p className="text-xs text-slate-600 italic font-medium leading-relaxed">
+              <p className="text-xs text-slate-600 italic font-bold leading-relaxed">
                 "{activeOrgan.funFact}"
               </p>
             </div>
@@ -507,18 +508,18 @@ export default function OrgansTab({ onEarnPoints }: OrgansTabProps) {
         </AnimatePresence>
 
         {/* ORGAN QUIZ BLOCK */}
-        <div className="bg-green-50 rounded-3xl border-4 border-green-200 p-5 shadow-lg flex flex-col gap-3">
+        <div className="bg-white rounded-3xl border-4 border-emerald-500 p-5 shadow-lg flex flex-col gap-3">
           <div className="flex items-center gap-2 mb-1">
-            <div className="bg-green-150 p-1.5 rounded-full">
-              <HelpCircle className="w-5 h-5 text-green-700" />
+            <div className="bg-emerald-50 border border-emerald-355 p-1.5 rounded-full">
+              <HelpCircle className="w-5 h-5 text-emerald-500" />
             </div>
             <div>
-              <h4 className="text-sm font-black text-green-800 leading-none">შეამოწმე შენი ცოდნა!</h4>
-              <p className="text-[9px] text-green-600 font-bold tracking-tight uppercase mt-0.5">პასუხისთვის მიიღე +20 ქულა და ⭐ 1 ვარსკვლავი!</p>
+              <h4 className="text-sm font-black text-emerald-600 leading-none">შეამოწმე შენი ცოდნა!</h4>
+              <p className="text-[9px] text-emerald-500 font-extrabold tracking-wider uppercase mt-1">პასუხისთვის მიიღე +20 ქულა და ⭐ 1 ვარსკვლავი!</p>
             </div>
           </div>
 
-          <p className="text-xs text-slate-800 font-extrabold leading-relaxed bg-white/70 p-3 rounded-xl border border-green-105">
+          <p className="text-xs text-slate-700 font-bold leading-relaxed bg-slate-50 p-3.5 rounded-2xl border-2 border-slate-200 shadow-inner">
             {activeOrgan.quiz.question}
           </p>
 
@@ -526,20 +527,20 @@ export default function OrgansTab({ onEarnPoints }: OrgansTabProps) {
           <div className="flex flex-col gap-2">
             {activeOrgan.quiz.options.map((option, idx) => {
               const isSelected = selectedQuizOption === idx;
-              let btnClass = "bg-white border-slate-200 text-slate-700 hover:border-green-300 hover:bg-green-50/20";
+              let btnClass = "bg-white border-2 border-slate-200 text-slate-700 hover:border-emerald-400 hover:bg-emerald-50/50 shadow-xs";
               
               if (quizSubmitted) {
                 if (idx === activeOrgan.quiz.correctAnswerIndex) {
                   // highlight correct
-                  btnClass = "bg-green-100 border-green-450 text-green-900 font-extrabold shadow-sm";
+                  btnClass = "bg-emerald-50 border-2 border-emerald-400 text-emerald-800 font-black shadow-sm";
                 } else if (isSelected) {
                   // incorrect selection
-                  btnClass = "bg-red-100 border-red-400 text-red-900 font-bold";
+                  btnClass = "bg-rose-50 border-2 border-rose-400 text-rose-800 font-bold";
                 } else {
-                  btnClass = "bg-white border-slate-200 text-slate-400 opacity-60";
+                  btnClass = "bg-slate-50 border-2 border-slate-150 text-slate-400 opacity-50";
                 }
               } else if (isSelected) {
-                btnClass = "bg-amber-100 border-amber-400 text-slate-900 font-bold shadow-xs";
+                btnClass = "bg-amber-50 border-2 border-amber-455 text-amber-800 font-black shadow-xs";
               }
 
               return (
@@ -547,7 +548,7 @@ export default function OrgansTab({ onEarnPoints }: OrgansTabProps) {
                   key={idx}
                   disabled={quizSubmitted}
                   onClick={() => handleOptionSelect(idx)}
-                  className={`w-full p-3 rounded-xl text-xs font-semibold text-left border-2 transition-all flex items-center justify-between ${btnClass}`}
+                  className={`w-full p-3 rounded-xl text-xs font-semibold text-left border-2 transition-all flex items-center justify-between cursor-pointer ${btnClass}`}
                 >
                   <span className="leading-normal">{option}</span>
                   {quizSubmitted && idx === activeOrgan.quiz.correctAnswerIndex && (
@@ -569,36 +570,36 @@ export default function OrgansTab({ onEarnPoints }: OrgansTabProps) {
                 onClick={handleSubmitAnswer}
                 className={`w-full py-2.5 rounded-xl text-xs font-black tracking-wide shadow-md transition-all active:scale-95 ${
                   selectedQuizOption === null
-                    ? "bg-slate-300 text-slate-500 cursor-not-allowed"
-                    : "bg-green-600 text-white hover:bg-green-700 cursor-pointer"
+                    ? "bg-slate-100 text-slate-400 border border-slate-200 cursor-not-allowed"
+                    : "bg-emerald-500 text-white hover:bg-emerald-600 cursor-pointer font-black shadow-md"
                 }`}
               >
                 პასუხის გაგზავნა 🚀
               </button>
             ) : (
-              <div className="flex flex-col gap-2.5 bg-white/60 p-3.5 rounded-xl border border-green-150 animate-fade-in">
+              <div className="flex flex-col gap-2.5 bg-slate-50 p-3.5 rounded-2xl border-2 border-slate-200 animate-fade-in shadow-sm">
                 {isAnswerCorrect ? (
                   <div>
-                    <div className="flex items-center gap-2 text-green-800 mb-1">
-                      <Award className="w-5 h-5 text-emerald-600 animate-bounce" />
-                      <span className="text-xs font-black">სუპერ! სწორია! 🎉</span>
+                    <div className="flex items-center gap-2 text-emerald-600 mb-1">
+                      <Award className="w-5 h-5 text-emerald-500 animate-bounce" />
+                      <span className="text-sm font-black">სუპერ! სწორია! 🎉</span>
                     </div>
-                    <p className="text-[11px] text-slate-600 leading-normal font-medium">
+                    <p className="text-xs text-slate-700 leading-relaxed font-bold">
                       {activeOrgan.quiz.explanation}
                     </p>
                   </div>
                 ) : (
                   <div>
-                    <div className="flex items-center gap-2 text-red-700 mb-1">
+                    <div className="flex items-center gap-2 text-rose-600 mb-1">
                       <RotateCcw className="w-4 h-4 animate-spin-slow" />
-                      <span className="text-xs font-black">უი, შეცდომაა! სცადე ხელახლა ↻</span>
+                      <span className="text-sm font-black">უი, შეცდომაა! სცადე ხელახლა ↻</span>
                     </div>
-                    <p className="text-[11px] text-slate-500 leading-normal mb-2.5">
-                      არ მოიწყინო! წაიკითხე ანალოგიისა და ფუნქციის აღწერა ზემოთ, რათა იპოვო სწორი პასუხი.
+                    <p className="text-xs text-slate-600 font-semibold leading-relaxed mb-2.5">
+                      $\delta$ არ მოიწყინო! წაიკითხე ანალოგიისა და ფუნქციის აღწერა ზემოთ, რათა იპოვო სწორი პასუხი.
                     </p>
                     <button
                       onClick={handleRetry}
-                      className="bg-red-500 text-white font-bold text-[10px] px-3 py-1.5 rounded-lg hover:bg-red-600"
+                      className="bg-rose-600 text-white font-black text-xs px-4.5 py-2.5 rounded-2xl hover:bg-rose-700 shadow-md cursor-pointer transition-all"
                     >
                       თავიდან სცადე
                     </button>
